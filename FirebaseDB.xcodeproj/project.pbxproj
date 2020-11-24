@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0403947C256CDE5100EA3A35 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0403947B256CDE5100EA3A35 /* Service.swift */; };
-		04039480256CE0E300EA3A35 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 0403947F256CE0E300EA3A35 /* SwiftPackageProductDependency */; };
+		04039480256CE0E300EA3A35 /* SparkUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0403947F256CE0E300EA3A35 /* SparkUI */; };
 		04039486256CE27E00EA3A35 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04039485256CE27E00EA3A35 /* Section.swift */; };
 		0403948A256CE28800EA3A35 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04039489256CE28800EA3A35 /* Item.swift */; };
 		0403948F256CE3A400EA3A35 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0403948E256CE3A400EA3A35 /* CollectionViewCell.swift */; };
@@ -17,7 +17,6 @@
 		04589963256514270038A4AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589962256514270038A4AC /* AppDelegate.swift */; };
 		04589965256514270038A4AC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589964256514270038A4AC /* SceneDelegate.swift */; };
 		04589967256514270038A4AC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589966256514270038A4AC /* ViewController.swift */; };
-		0458996A256514270038A4AC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04589968256514270038A4AC /* Main.storyboard */; };
 		0458996C256514280038A4AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0458996B256514280038A4AC /* Assets.xcassets */; };
 		0458996F256514280038A4AC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0458996D256514280038A4AC /* LaunchScreen.storyboard */; };
 		1B20753CD113417C8B255A41 /* Pods_FirebaseDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2B0F77D491C46E66E82533D /* Pods_FirebaseDB.framework */; };
@@ -34,7 +33,6 @@
 		04589962256514270038A4AC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04589964256514270038A4AC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		04589966256514270038A4AC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		04589969256514270038A4AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0458996B256514280038A4AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0458996E256514280038A4AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		04589970256514280038A4AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -48,7 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04039480256CE0E300EA3A35 /* BuildFile in Frameworks */,
+				04039480256CE0E300EA3A35 /* SparkUI in Frameworks */,
 				1B20753CD113417C8B255A41 /* Pods_FirebaseDB.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -117,7 +115,6 @@
 				04039484256CE24B00EA3A35 /* Model */,
 				0403948C256CE2ED00EA3A35 /* View */,
 				0403948D256CE2FE00EA3A35 /* View Controller */,
-				04589968256514270038A4AC /* Main.storyboard */,
 				0458996B256514280038A4AC /* Assets.xcassets */,
 				0458996D256514280038A4AC /* LaunchScreen.storyboard */,
 				04589970256514280038A4AC /* Info.plist */,
@@ -140,7 +137,6 @@
 				A8DC188571B15AE3D4C1A013 /* Pods-FirebaseDB.debug.xcconfig */,
 				32F80DB424BC65D4AF2A1708 /* Pods-FirebaseDB.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -163,7 +159,7 @@
 			);
 			name = FirebaseDB;
 			packageProductDependencies = (
-				0403947F256CE0E300EA3A35 /* SwiftPackageProductDependency */,
+				0403947F256CE0E300EA3A35 /* SparkUI */,
 			);
 			productName = FirebaseDB;
 			productReference = 0458995F256514270038A4AC /* FirebaseDB.app */;
@@ -193,7 +189,7 @@
 			);
 			mainGroup = 04589956256514270038A4AC;
 			packageReferences = (
-				0403947E256CE0E300EA3A35 /* RemoteSwiftPackageReference */,
+				0403947E256CE0E300EA3A35 /* XCRemoteSwiftPackageReference "SparkUI" */,
 			);
 			productRefGroup = 04589960256514270038A4AC /* Products */;
 			projectDirPath = "";
@@ -212,7 +208,6 @@
 				0458996F256514280038A4AC /* LaunchScreen.storyboard in Resources */,
 				04039496256CE86A00EA3A35 /* GoogleService-Info.plist in Resources */,
 				0458996C256514280038A4AC /* Assets.xcassets in Resources */,
-				0458996A256514270038A4AC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,14 +274,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		04589968256514270038A4AC /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				04589969256514270038A4AC /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		0458996D256514280038A4AC /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -478,7 +465,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		0403947E256CE0E300EA3A35 /* RemoteSwiftPackageReference */ = {
+		0403947E256CE0E300EA3A35 /* XCRemoteSwiftPackageReference "SparkUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/rebeloper/SparkUI.git";
 			requirement = {
@@ -489,9 +476,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0403947F256CE0E300EA3A35 /* SwiftPackageProductDependency */ = {
+		0403947F256CE0E300EA3A35 /* SparkUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0403947E256CE0E300EA3A35 /* RemoteSwiftPackageReference */;
+			package = 0403947E256CE0E300EA3A35 /* XCRemoteSwiftPackageReference "SparkUI" */;
 			productName = SparkUI;
 		};
 /* End XCSwiftPackageProductDependency section */
