@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0403947C256CDE5100EA3A35 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0403947B256CDE5100EA3A35 /* Service.swift */; };
 		04589963256514270038A4AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589962256514270038A4AC /* AppDelegate.swift */; };
 		04589965256514270038A4AC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589964256514270038A4AC /* SceneDelegate.swift */; };
 		04589967256514270038A4AC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589966256514270038A4AC /* ViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0403947B256CDE5100EA3A35 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		0458995F256514270038A4AC /* FirebaseDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirebaseDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04589962256514270038A4AC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04589964256514270038A4AC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 			children = (
 				04589962256514270038A4AC /* AppDelegate.swift */,
 				04589964256514270038A4AC /* SceneDelegate.swift */,
+				0403947B256CDE5100EA3A35 /* Service.swift */,
 				04589966256514270038A4AC /* ViewController.swift */,
 				04589968256514270038A4AC /* Main.storyboard */,
 				0458996B256514280038A4AC /* Assets.xcassets */,
@@ -138,6 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04589967256514270038A4AC /* ViewController.swift in Sources */,
+				0403947C256CDE5100EA3A35 /* Service.swift in Sources */,
 				04589963256514270038A4AC /* AppDelegate.swift in Sources */,
 				04589965256514270038A4AC /* SceneDelegate.swift in Sources */,
 			);
