@@ -16,7 +16,7 @@
 		04039496256CE86A00EA3A35 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04039495256CE86A00EA3A35 /* GoogleService-Info.plist */; };
 		04589963256514270038A4AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589962256514270038A4AC /* AppDelegate.swift */; };
 		04589965256514270038A4AC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589964256514270038A4AC /* SceneDelegate.swift */; };
-		04589967256514270038A4AC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589966256514270038A4AC /* ViewController.swift */; };
+		04589967256514270038A4AC /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589966256514270038A4AC /* HomeViewController.swift */; };
 		0458996C256514280038A4AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0458996B256514280038A4AC /* Assets.xcassets */; };
 		0458996F256514280038A4AC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0458996D256514280038A4AC /* LaunchScreen.storyboard */; };
 		1B20753CD113417C8B255A41 /* Pods_FirebaseDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2B0F77D491C46E66E82533D /* Pods_FirebaseDB.framework */; };
@@ -43,7 +43,7 @@
 		0458995F256514270038A4AC /* FirebaseDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirebaseDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04589962256514270038A4AC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "../New Group/AppDelegate.swift"; sourceTree = "<group>"; };
 		04589964256514270038A4AC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SceneDelegate.swift; path = "../New Group/SceneDelegate.swift"; sourceTree = "<group>"; };
-		04589966256514270038A4AC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		04589966256514270038A4AC /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		0458996B256514280038A4AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0458996E256514280038A4AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		04589970256514280038A4AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -107,7 +107,7 @@
 		0403948D256CE2FE00EA3A35 /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
-				04589966256514270038A4AC /* ViewController.swift */,
+				04589966256514270038A4AC /* HomeViewController.swift */,
 				C926507D256D1FC5002D4CB0 /* AuthViewController.swift */,
 				C9265068256D1693002D4CB0 /* TabBarController.swift */,
 				C9265080256D234F002D4CB0 /* ProfileViewController.swift */,
@@ -313,7 +313,7 @@
 			files = (
 				C926507B256D1BD4002D4CB0 /* SparkError.swift in Sources */,
 				04039486256CE27E00EA3A35 /* Section.swift in Sources */,
-				04589967256514270038A4AC /* ViewController.swift in Sources */,
+				04589967256514270038A4AC /* HomeViewController.swift in Sources */,
 				C9265075256D1A54002D4CB0 /* SparkFirebaseRootReference.swift in Sources */,
 				C9265078256D1AA6002D4CB0 /* SparkKey.swift in Sources */,
 				C9265069256D1693002D4CB0 /* TabBarController.swift in Sources */,
@@ -534,7 +534,7 @@
 			repositoryURL = "https://github.com/rebeloper/SparkUI.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.12.34;
+				minimumVersion = 0.12.35;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

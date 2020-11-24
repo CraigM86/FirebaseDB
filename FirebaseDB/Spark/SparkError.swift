@@ -7,6 +7,13 @@
 
 import Foundation
 
+struct SparkAuthError: Error {
+    static let noAuthDataResult = NSError(domain: "No Auth Data Result", code: 1, userInfo: nil)
+    static let noCurrentUser = NSError(domain: "No Current User", code: 1, userInfo: nil)
+    static let noDocumentSnapshot = NSError(domain: "No Document Snapshot", code: 1, userInfo: nil)
+    static let noSnapshotData = NSError(domain: "No Snapshot Data", code: 1, userInfo: nil)
+}
+
 struct SparkFirestoreError {
     static let noDocumentSnapshot = NSError(domain: "No Document Snapshot", code: 2, userInfo: nil)
     static let noLastDocumentSnapshot = NSError(domain: "No Last Document Snapshot", code: 2, userInfo: nil)
@@ -18,4 +25,8 @@ struct SparkFirestoreError {
     static let noQuery = NSError(domain: "No Query", code: 2, userInfo: nil)
     static let noFirstQuery = NSError(domain: "No First Query", code: 2, userInfo: nil)
     static let noNextQuery = NSError(domain: "No Next Query", code: 2, userInfo: nil)
+}
+
+struct SignInWithAppleAuthError: Error {
+    static let noAuthDataResult = NSError(domain: "No Auth Data Result", code: 4, userInfo: nil)
 }

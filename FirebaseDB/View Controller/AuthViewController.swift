@@ -54,7 +54,11 @@ class AuthViewController: SSignInWithAppleViewController {
         
         stack(.vertical)(
             Spacer(),
-            signInWithAppleButton.setHeight(50),
+            stack(.horizontal, distribution: .equalCentering)(
+                Spacer(),
+                signInWithAppleButton.sizing(toWidth: 240, height: 50),
+                Spacer()
+            ),
             Spacer().setHeight(24)
         ).insetting(by: 12).fillingParent().layout(in: container)
         
@@ -71,15 +75,26 @@ class AuthViewController: SSignInWithAppleViewController {
     override func subscribe() {
         super.subscribe()
         
-        signInWithAppleObserver.subscribe(with: self) { (observer) in
-            let newProfile = Profile(uid: "", name: observer.name)
-            SparkBuckets.currentUserProfile.value = newProfile
-            print("Signed in with Apple only")
-            self.dismiss(animated: true, completion: nil)
+        signInWithAppleObserver.subscribe(with: self) { (signInWithAppleObserver) in
+            Hud.large.showWorking(message: "Signing you in with Apple")
+            SparkAuth.signIn(providerID: self.providerIDForSignInWithApple, idTokenString: signInWithAppleObserver.idTokenString, nonce: signInWithAppleObserver.nonce) { (result) in
+                switch result {
+                case .success(let authDataResult):
+                    let profile = Profile(uid: authDataResult.user.uid,
+                                          name: signInWithAppleObserver.name)
+                    SparkBuckets.currentUserProfile.value = profile
+                    Hud.large.hide()
+                    self.dismiss(animated: true, completion: nil)
+                    // let configureFirebaseStateDidChange take care of saving the currentUserProfile to Firestore / updating the currentUserProfile in Firestore if necessary
+
+                case .failure(let err):
+                    Hud.large.hideWithErrorAlert(message: err.localizedDescription)
+                }
+            }
         }
         
-        signInWithAppleErrorObserver.subscribe(with: self) { (observer) in
-//            Alert.showError(message: "\(observer.error.localizedDescription)")
+        signInWithAppleErrorObserver.subscribe(with: self) { (signInWithAppleErrorObserver) in
+            Alert.showError(message: signInWithAppleErrorObserver.error.localizedDescription)
         }
     }
     

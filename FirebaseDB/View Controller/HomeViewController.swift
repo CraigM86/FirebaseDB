@@ -1,8 +1,8 @@
 //
-//  ProfileViewController.swift
+//  HomeViewController.swift
 //  FirebaseDB
 //
-//  Created by Alex Nagy on 24.11.2020.
+//  Created by MAC on 18/11/20.
 //
 
 import UIKit
@@ -11,7 +11,7 @@ import Layoutless
 
 // MARK: - Protocols
 
-class ProfileViewController: SViewController {
+class HomeViewController: SViewController {
     
     // MARK: - Dependencies
     
@@ -22,22 +22,6 @@ class ProfileViewController: SViewController {
     // MARK: - Buckets
     
     // MARK: - Navigation items
-    
-    lazy var logoutBarButtonItem = UIBarButtonItem(title: "Logout", style: .done) {
-        
-        let confirmAction = UIAlertAction(title: "Confirm", style: .destructive) { (action) in
-            SparkAuth.signOut { (result) in
-                switch result {
-                case .success(let finished):
-                    print("Logged out with success: \(finished)")
-                case .failure(let err):
-                    Alert.showError(message: err.localizedDescription)
-                }
-            }
-        }
-        
-        Alert.show(.alert, title: "Logout", message: "Are you sure you want to log out?", actions: [confirmAction, Alert.cancelAction()], completion: nil)
-    }
     
     // MARK: - Views
     
@@ -55,7 +39,6 @@ class ProfileViewController: SViewController {
     
     override func setupNavigationBar() {
         super.setupNavigationBar()
-        self.navigationItem.setRightBarButton(logoutBarButtonItem, animated: false)
     }
     
     override func configureNavigationBar() {
@@ -85,10 +68,6 @@ class ProfileViewController: SViewController {
     
     override func subscribe() {
         super.subscribe()
-        
-        SparkBuckets.currentUserProfile.subscribe(with: self) { (profile) in
-            self.setTitleOnly(profile.name)
-        }
     }
     
     override func onLoad() {
@@ -118,4 +97,5 @@ class ProfileViewController: SViewController {
 // MARK: - Datasources
 
 // MARK: - Extensions
+
 

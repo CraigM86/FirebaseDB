@@ -52,6 +52,30 @@ struct SparkAuth {
         Auth.auth().removeStateDidChangeListener(handle)
     }
     
+    static func signIn(providerID: String, idTokenString: String, nonce: String, completion: @escaping (Result<AuthDataResult, Error>) -> ()) {
+        // Initialize a Firebase credential.
+        let credential = OAuthProvider.credential(withProviderID: providerID,
+                                                  idToken: idTokenString,
+                                                  rawNonce: nonce)
+        // Sign in with Firebase.
+        Auth.auth().signIn(with: credential) { (authDataResult, err) in
+            if let err = err {
+                // Error. If error.code == .MissingOrInvalidNonce, make sure
+                // you're sending the SHA256-hashed nonce as a hex string with
+                // your request to Apple.
+                print(err.localizedDescription)
+                completion(.failure(err))
+                return
+            }
+            // User is signed in to Firebase with Apple.
+            guard let authDataResult = authDataResult else {
+                completion(.failure(SignInWithAppleAuthError.noAuthDataResult))
+                return
+            }
+            completion(.success(authDataResult))
+        }
+    }
+    
     static func signOut(completion: @escaping (Result<Bool, Error>) -> ()) {
         let auth = Auth.auth()
         do {

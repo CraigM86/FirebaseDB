@@ -11,48 +11,60 @@ import FirebaseAuth
 
 class TabBarController: UITabBarController {
     
-    let homeController = UINavigationController(rootViewController: ViewController())
-    let profileController = UINavigationController(rootViewController: ProfileViewController())
+    let authViewController = AuthViewController()
+    
+    let controller0 = HomeViewController()
+    let controller1 = ProfileViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupRoot()
+        observeAuthState()
+    }
+    
+    fileprivate func setupRoot() {
         SparkAuth.configureFirebaseStateDidChange()
-        //        SparkAuth.logout()
-        
-        setupTabBar()
-        subscribe()
+        showMain()
     }
     
-    fileprivate func setupTabBar() {
-        viewControllers = [
-            homeController,
-            profileController
-        ]
-    }
-    
-    fileprivate func subscribe() {
-        
+    fileprivate func observeAuthState() {
         SparkBuckets.currentUserAuthState.subscribe(with: self) { (authState) in
+            Console.info("Auth State: \(authState)")
             switch authState {
-            case .undefined:
-                print("currentUserAuthState: \(authState)")
-                let controller = AuthViewController()
-                controller.isModalInPresentation = true
-                controller.modalPresentationStyle = .fullScreen
-                self.present(controller, animated: true, completion: nil)
-            case .signedOut:
-                print("currentUserAuthState: \(authState)")
-                print("Do show the AuthViewController")
+            case .undefined, .signedOut:
                 let controller = AuthViewController()
                 controller.isModalInPresentation = true
                 controller.modalPresentationStyle = .fullScreen
                 self.present(controller, animated: true, completion: nil)
             case .signedIn:
-                print("currentUserAuthState: \(authState)")
-                print("Do dismiss the AuthViewController")
+                Console.info("Do dismiss the AuthViewController")
             }
         }
+        
     }
+    
+    fileprivate func showMain() {
+        
+        UITabBar.appearance().tintColor = .systemRed
+        
+        let item0 = UITabBarItem()
+        item0.image = UIImage(systemName: "house.fill")
+        controller0.tabBarItem = item0
+        
+        let item1 = UITabBarItem()
+        item1.image = UIImage(systemName: "person.fill")
+        controller1.tabBarItem = item1
+        
+        viewControllers = [
+            UINavigationController(rootViewController: controller0),
+            UINavigationController(rootViewController: controller1)
+        ]
+        
+        selectedIndex = 1
+
+    }
+    
 }
+
 
