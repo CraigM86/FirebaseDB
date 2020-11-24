@@ -13,11 +13,10 @@ class Service: ObservableObject {
     
     @Published var sections = [Section]()
     
-    var db = Firestore.firestore()
+    var dbRef = Firestore.firestore()
     
-    static func fetchData() {
-        
-        db.collection("Furniture").addSnapshotListener { (querySnapshot, error) in
+    init(){
+        dbRef.collection("furniture").addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No Documents")
                 return
@@ -25,7 +24,8 @@ class Service: ObservableObject {
             self.sections = documents.compactMap{ (queryDocumentSnapshot) -> Section? in
                 try? queryDocumentSnapshot.data(as: Section.self)
             }
-            print(self.sections.count)
+            print(documents)
         }
     }
+    
 }
