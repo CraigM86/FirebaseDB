@@ -47,6 +47,26 @@ struct SparkAuth {
         })
     }
     
+    static func removeFirebaseAuthListener() {
+        guard let handle = authStateDidChangeListenerHandle else { return }
+        Auth.auth().removeStateDidChangeListener(handle)
+    }
+    
+    static func signOut(completion: @escaping (Result<Bool, Error>) -> ()) {
+        let auth = Auth.auth()
+        do {
+            try auth.signOut()
+            resetApp()
+            completion(.success(true))
+        } catch let err {
+            completion(.failure(err))
+        }
+    }
+    
+    static func resetApp() {
+        SparkBuckets.currentUserProfile.value = Profile()
+    }
+    
     static func handleAuthenticated(_ user: User, completion: @escaping (Result<Bool, Error>) -> ()) {
         SparkFirestore.retreiveProfile(uid: user.uid) { (result) in
             switch result {

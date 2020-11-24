@@ -29,6 +29,8 @@
 		C9265075256D1A54002D4CB0 /* SparkFirebaseRootReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9265074256D1A54002D4CB0 /* SparkFirebaseRootReference.swift */; };
 		C9265078256D1AA6002D4CB0 /* SparkKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9265077256D1AA6002D4CB0 /* SparkKey.swift */; };
 		C926507B256D1BD4002D4CB0 /* SparkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C926507A256D1BD4002D4CB0 /* SparkError.swift */; };
+		C926507E256D1FC5002D4CB0 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C926507D256D1FC5002D4CB0 /* AuthViewController.swift */; };
+		C9265081256D234F002D4CB0 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9265080256D234F002D4CB0 /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +59,9 @@
 		C9265074256D1A54002D4CB0 /* SparkFirebaseRootReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkFirebaseRootReference.swift; sourceTree = "<group>"; };
 		C9265077256D1AA6002D4CB0 /* SparkKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkKey.swift; sourceTree = "<group>"; };
 		C926507A256D1BD4002D4CB0 /* SparkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkError.swift; sourceTree = "<group>"; };
+		C926507D256D1FC5002D4CB0 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
+		C9265080256D234F002D4CB0 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		C9265083256D258D002D4CB0 /* FirebaseDB.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FirebaseDB.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,7 +108,9 @@
 			isa = PBXGroup;
 			children = (
 				04589966256514270038A4AC /* ViewController.swift */,
+				C926507D256D1FC5002D4CB0 /* AuthViewController.swift */,
 				C9265068256D1693002D4CB0 /* TabBarController.swift */,
+				C9265080256D234F002D4CB0 /* ProfileViewController.swift */,
 			);
 			path = "View Controller";
 			sourceTree = "<group>";
@@ -129,6 +136,7 @@
 		04589961256514270038A4AC /* FirebaseDB */ = {
 			isa = PBXGroup;
 			children = (
+				C9265083256D258D002D4CB0 /* FirebaseDB.entitlements */,
 				C926504B256D14F6002D4CB0 /* Spark */,
 				04039482256CE23800EA3A35 /* Service */,
 				04039484256CE24B00EA3A35 /* Model */,
@@ -312,6 +320,7 @@
 				C926506F256D1949002D4CB0 /* Profile.swift in Sources */,
 				C926506C256D18E1002D4CB0 /* SparkFirestore.swift in Sources */,
 				C926504D256D1530002D4CB0 /* SparkAuth.swift in Sources */,
+				C9265081256D234F002D4CB0 /* ProfileViewController.swift in Sources */,
 				0403947C256CDE5100EA3A35 /* Service.swift in Sources */,
 				C9265072256D1A33002D4CB0 /* SparkFirestoreReferenceManager.swift in Sources */,
 				0403948F256CE3A400EA3A35 /* CollectionViewCell.swift in Sources */,
@@ -319,6 +328,7 @@
 				04589963256514270038A4AC /* AppDelegate.swift in Sources */,
 				0403948A256CE28800EA3A35 /* Item.swift in Sources */,
 				04039493256CE3CC00EA3A35 /* CollectionHeader.swift in Sources */,
+				C926507E256D1FC5002D4CB0 /* AuthViewController.swift in Sources */,
 				04589965256514270038A4AC /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -459,6 +469,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FirebaseDB/FirebaseDB.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R252PR8AVU;
 				INFOPLIST_FILE = FirebaseDB/Info.plist;
@@ -479,6 +490,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FirebaseDB/FirebaseDB.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R252PR8AVU;
 				INFOPLIST_FILE = FirebaseDB/Info.plist;
