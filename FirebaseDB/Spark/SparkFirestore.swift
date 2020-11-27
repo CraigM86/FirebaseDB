@@ -8,6 +8,7 @@
 import Foundation
 import SparkUI
 import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 struct SparkFirestore {
     

@@ -7,10 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0403947C256CDE5100EA3A35 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0403947B256CDE5100EA3A35 /* Service.swift */; };
 		04039480256CE0E300EA3A35 /* SparkUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0403947F256CE0E300EA3A35 /* SparkUI */; };
-		0403948F256CE3A400EA3A35 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0403948E256CE3A400EA3A35 /* CollectionViewCell.swift */; };
-		04039493256CE3CC00EA3A35 /* CollectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04039492256CE3CC00EA3A35 /* CollectionHeader.swift */; };
 		04039496256CE86A00EA3A35 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04039495256CE86A00EA3A35 /* GoogleService-Info.plist */; };
 		04589963256514270038A4AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589962256514270038A4AC /* AppDelegate.swift */; };
 		04589965256514270038A4AC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04589964256514270038A4AC /* SceneDelegate.swift */; };
@@ -42,9 +39,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0403947B256CDE5100EA3A35 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
-		0403948E256CE3A400EA3A35 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
-		04039492256CE3CC00EA3A35 /* CollectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionHeader.swift; sourceTree = "<group>"; };
 		04039495256CE86A00EA3A35 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		0458995F256514270038A4AC /* FirebaseDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirebaseDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04589962256514270038A4AC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "../New Group/AppDelegate.swift"; sourceTree = "<group>"; };
@@ -96,7 +90,6 @@
 		04039482256CE23800EA3A35 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				0403947B256CDE5100EA3A35 /* Service.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -115,8 +108,6 @@
 		0403948C256CE2ED00EA3A35 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				0403948E256CE3A400EA3A35 /* CollectionViewCell.swift */,
-				04039492256CE3CC00EA3A35 /* CollectionHeader.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -360,12 +351,9 @@
 				C926504D256D1530002D4CB0 /* SparkAuth.swift in Sources */,
 				C907207D25710D5600F1C23A /* Setup.swift in Sources */,
 				C9265081256D234F002D4CB0 /* ProfileViewController.swift in Sources */,
-				0403947C256CDE5100EA3A35 /* Service.swift in Sources */,
 				C9265072256D1A33002D4CB0 /* SparkFirestoreReferenceManager.swift in Sources */,
-				0403948F256CE3A400EA3A35 /* CollectionViewCell.swift in Sources */,
 				C9265050256D159B002D4CB0 /* SparkBuckets.swift in Sources */,
 				04589963256514270038A4AC /* AppDelegate.swift in Sources */,
-				04039493256CE3CC00EA3A35 /* CollectionHeader.swift in Sources */,
 				C926507E256D1FC5002D4CB0 /* AuthViewController.swift in Sources */,
 				C98DDF522571174C0098DD22 /* AdminViewController.swift in Sources */,
 				04589965256514270038A4AC /* SceneDelegate.swift in Sources */,
