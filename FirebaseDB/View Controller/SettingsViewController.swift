@@ -63,6 +63,13 @@ class SettingsViewController: SImagePickerViewController {
         .textAlignment(.center)
         .bold()
     
+    let adminLabel = UILabel()
+        .text("Admin Access")
+        .text(color: .systemRed)
+        .textAlignment(.center)
+        .bold()
+        .isHidden()
+    
     // MARK: - init - deinit
     
     // MARK: - Lifecycle
@@ -100,6 +107,7 @@ class SettingsViewController: SImagePickerViewController {
             nameTextField,
             SDivider(),
             logoutLabel,
+            adminLabel,
             Spacer()
         ).insetting(by: 12).fillingParent().layout(in: container)
         
@@ -107,8 +115,10 @@ class SettingsViewController: SImagePickerViewController {
     
     override func configureViews() {
         super.configureViews()
-        self.profileImageView.setImage(from: SparkBuckets.currentUserProfile.value.profileImageUrl, renderingMode: .alwaysOriginal, contentMode: .scaleAspectFill, placeholderImage: nil, indicatorType: .activity)
-        self.nameTextField.text(SparkBuckets.currentUserProfile.value.name)
+        profileImageView.setImage(from: SparkBuckets.currentUserProfile.value.profileImageUrl, renderingMode: .alwaysOriginal, contentMode: .scaleAspectFill, placeholderImage: nil, indicatorType: .activity)
+        nameTextField.text(SparkBuckets.currentUserProfile.value.name)
+        
+        adminLabel.isHidden(!SparkBuckets.isAdmin.value)
     }
     
     override func addActions() {
@@ -133,6 +143,11 @@ class SettingsViewController: SImagePickerViewController {
             
             Alert.show(.alert, title: "Logout", message: "Are you sure you want to log out?", actions: [confirmAction, Alert.cancelAction()], completion: nil)
         }
+        
+        adminLabel.addAction {
+            let controller = AdminViewController()
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
     }
     
     override func subscribe() {
@@ -144,6 +159,10 @@ class SettingsViewController: SImagePickerViewController {
         
         imagePickerControllerImage.subscribe(with: self) { (image) in
             self.profileImageView.image = image
+        }
+        
+        SparkBuckets.isAdmin.subscribe(with: self) { (isAdmin) in
+            self.adminLabel.isHidden(!isAdmin)
         }
     }
     

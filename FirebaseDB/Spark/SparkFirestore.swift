@@ -68,6 +68,41 @@ struct SparkFirestore {
         }
     }
     
+    // MARK: - Admin
+    
+    static func retreiveAdmins(completion: @escaping (Result<[Admin], Error>) -> ()) {
+        let query = SparkFirestoreQueryManager.queryForAdmins()
+        query.getDocuments { (querySnapshot, err) in
+            if let err = err {
+                completion(.failure(err))
+                return
+            }
+            guard let querySnapshot = querySnapshot else {
+                completion(.failure(SparkFirestoreError.noQuerySnapshot))
+                return
+            }
+            let documents = querySnapshot.documents
+            
+            var admins = [Admin]()
+            for document in documents {
+                let result = Result {
+                    try document.data(as: Admin.self)
+                }
+                switch result {
+                case .success(let admin):
+                    if let admin = admin {
+                        admins.append(admin)
+                    } else {
+                        print("documentDoesNotExist")
+                    }
+                case .failure(let err):
+                    print(err.localizedDescription)
+                }
+            }
+            completion(.success(admins))
+        }
+    }
+    
     // MARK: - fileprivate Firestore functions
     
     static fileprivate func getDocument(for reference: DocumentReference, completion: @escaping (Result<[String : Any], Error>) -> ()) {

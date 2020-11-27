@@ -12,4 +12,5 @@ struct SparkBuckets {
     
     static let currentUserAuthState = Bucket(SparkAuthState.undefined)
     static let currentUserProfile = Bucket(Profile())
+    static let isAdmin = Bucket(false)
 }

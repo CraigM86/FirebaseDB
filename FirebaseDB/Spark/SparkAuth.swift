@@ -36,6 +36,7 @@ struct SparkAuth {
                 case .success(let finished):
                     if finished {
                         SparkBuckets.currentUserAuthState.value = .signedIn
+                        self.isAdmin(uid: user.uid)
                     } else {
                         Alert.showErrorSomethingWentWrong()
                     }
@@ -110,6 +111,21 @@ struct SparkAuth {
                         completion(result)
                     }
                 }
+            }
+        }
+    }
+    
+    static func isAdmin(uid: String, completion: @escaping (Result<Bool, Error>) -> () = {_ in}) {
+        SparkFirestore.retreiveAdmins { (result) in
+            switch result {
+            case .success(let admins):
+                let isAdmin = admins.contains(where: { (admin) -> Bool in
+                    admin.uid == uid
+                })
+                SparkBuckets.isAdmin.value = isAdmin
+                completion(.success(isAdmin))
+            case .failure(let err):
+                completion(.failure(err))
             }
         }
     }

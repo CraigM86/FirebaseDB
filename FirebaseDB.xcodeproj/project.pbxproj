@@ -34,6 +34,9 @@
 		C926507B256D1BD4002D4CB0 /* SparkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C926507A256D1BD4002D4CB0 /* SparkError.swift */; };
 		C926507E256D1FC5002D4CB0 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C926507D256D1FC5002D4CB0 /* AuthViewController.swift */; };
 		C9265081256D234F002D4CB0 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9265080256D234F002D4CB0 /* ProfileViewController.swift */; };
+		C98DDF4B257111CA0098DD22 /* Admin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DDF4A257111CA0098DD22 /* Admin.swift */; };
+		C98DDF4E257112B40098DD22 /* SparkFirestoreQueryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DDF4D257112B40098DD22 /* SparkFirestoreQueryManager.swift */; };
+		C98DDF522571174C0098DD22 /* AdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DDF512571174C0098DD22 /* AdminViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +71,9 @@
 		C926507D256D1FC5002D4CB0 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		C9265080256D234F002D4CB0 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		C9265083256D258D002D4CB0 /* FirebaseDB.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FirebaseDB.entitlements; sourceTree = "<group>"; };
+		C98DDF4A257111CA0098DD22 /* Admin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Admin.swift; sourceTree = "<group>"; };
+		C98DDF4D257112B40098DD22 /* SparkFirestoreQueryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkFirestoreQueryManager.swift; sourceTree = "<group>"; };
+		C98DDF512571174C0098DD22 /* AdminViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +103,7 @@
 				04039485256CE27E00EA3A35 /* Section.swift */,
 				04039489256CE28800EA3A35 /* Item.swift */,
 				C926506E256D1949002D4CB0 /* Profile.swift */,
+				C98DDF4A257111CA0098DD22 /* Admin.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -113,6 +120,7 @@
 		0403948D256CE2FE00EA3A35 /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
+				C98DDF50257117370098DD22 /* Admin */,
 				04589966256514270038A4AC /* HomeViewController.swift */,
 				C926507D256D1FC5002D4CB0 /* AuthViewController.swift */,
 				C9265068256D1693002D4CB0 /* TabBarController.swift */,
@@ -192,12 +200,21 @@
 				C926506B256D18E1002D4CB0 /* SparkFirestore.swift */,
 				C907206225710B1C00F1C23A /* SparkStorage.swift */,
 				C9265071256D1A33002D4CB0 /* SparkFirestoreReferenceManager.swift */,
+				C98DDF4D257112B40098DD22 /* SparkFirestoreQueryManager.swift */,
 				C9265074256D1A54002D4CB0 /* SparkFirebaseRootReference.swift */,
 				C9265077256D1AA6002D4CB0 /* SparkKey.swift */,
 				C926507A256D1BD4002D4CB0 /* SparkError.swift */,
 				C926504F256D159B002D4CB0 /* SparkBuckets.swift */,
 			);
 			path = Spark;
+			sourceTree = "<group>";
+		};
+		C98DDF50257117370098DD22 /* Admin */ = {
+			isa = PBXGroup;
+			children = (
+				C98DDF512571174C0098DD22 /* AdminViewController.swift */,
+			);
+			path = Admin;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -320,9 +337,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C98DDF4E257112B40098DD22 /* SparkFirestoreQueryManager.swift in Sources */,
 				C926507B256D1BD4002D4CB0 /* SparkError.swift in Sources */,
 				04039486256CE27E00EA3A35 /* Section.swift in Sources */,
 				04589967256514270038A4AC /* HomeViewController.swift in Sources */,
+				C98DDF4B257111CA0098DD22 /* Admin.swift in Sources */,
 				C90720432571006300F1C23A /* SettingsViewController.swift in Sources */,
 				C9265075256D1A54002D4CB0 /* SparkFirebaseRootReference.swift in Sources */,
 				C9265078256D1AA6002D4CB0 /* SparkKey.swift in Sources */,
@@ -341,6 +360,7 @@
 				0403948A256CE28800EA3A35 /* Item.swift in Sources */,
 				04039493256CE3CC00EA3A35 /* CollectionHeader.swift in Sources */,
 				C926507E256D1FC5002D4CB0 /* AuthViewController.swift in Sources */,
+				C98DDF522571174C0098DD22 /* AdminViewController.swift in Sources */,
 				04589965256514270038A4AC /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
