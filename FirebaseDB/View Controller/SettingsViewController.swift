@@ -29,7 +29,7 @@ class SettingsViewController: SImagePickerViewController {
         }
         
         Hud.large.showWorking(message: "Saving profile changes...")
-        SparkStorage.handleImageChange(newImage: image, folderPath: SparkKey.StoragePath.profileImages, compressionQuality: Setup.profilImageCompressionQuality, oldImageUrl: SparkBuckets.currentUserProfile.value.profileImageUrl) { (result) in
+        SparkStorage.handleImageChange(newImage: image, folderPath: SparkKey.StoragePath.profileImages, compressionQuality: Setup.profileImageCompressionQuality, oldImageUrl: SparkBuckets.currentUserProfile.value.profileImageUrl) { (result) in
             switch result {
             case .success(let url):
                 Hud.large.update(message: "Updating database...")
@@ -48,7 +48,7 @@ class SettingsViewController: SImagePickerViewController {
                     }
                 }
             case .failure(let err):
-                Alert.showError(message: err.localizedDescription)
+                Hud.large.hideWithErrorAlert(message: err.localizedDescription)
             }
         }
     }

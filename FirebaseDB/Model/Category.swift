@@ -1,5 +1,5 @@
 //
-//  Item.swift
+//  Category.swift
 //  FirebaseDB
 //
 //  Created by Alex Nagy on 27.11.2020.
@@ -9,7 +9,7 @@ import Foundation
 import SparkUI
 import BetterCodable
 
-struct Item: Codable {
+struct Category: Codable {
     
     // MARK: - Properties
     
@@ -28,9 +28,9 @@ struct Item: Codable {
     }
     
     init(with dictionary: [String: Any]? = nil) {
-        uid = dictionary?[Key.Item.uid] as? String ?? String.empty
-        name = dictionary?[Key.Item.name] as? String ?? String.empty
-        headerImageUrl = dictionary?[Key.Item.headerImageUrl] as? String ?? String.empty
+        uid = dictionary?[Key.Category.uid] as? String ?? String.empty
+        name = dictionary?[Key.Category.name] as? String ?? String.empty
+        headerImageUrl = dictionary?[Key.Category.headerImageUrl] as? String ?? String.empty
     }
     
     // MARK: - Dictionary
@@ -38,15 +38,15 @@ struct Item: Codable {
     func dictionary(mapped: Bool = false) -> [String: Any] {
         if mapped {
             return [
-                Key.Item.uid: uid,
-                Key.Item.name: name,
-                Key.Item.headerImageUrl: headerImageUrl
+                Key.Category.uid: uid,
+                Key.Category.name: name,
+                Key.Category.headerImageUrl: headerImageUrl
             ]
         } else {
             return [
-                Key.Item.uid: uid,
-                Key.Item.name: name,
-                Key.Item.headerImageUrl: headerImageUrl
+                Key.Category.uid: uid,
+                Key.Category.name: name,
+                Key.Category.headerImageUrl: headerImageUrl
             ]
         }
     }
@@ -55,20 +55,19 @@ struct Item: Codable {
 
 // MARK: - Property Wrapper
 
-struct DefaultEmptyItemStrategy: DefaultCodableStrategy {
-    static var defaultValue: Item { return Item() }
+struct DefaultEmptyCategoryStrategy: DefaultCodableStrategy {
+    static var defaultValue: Category { return Category() }
 }
-typealias DefaultEmptyItem = DefaultCodable<DefaultEmptyItemStrategy>
+typealias DefaultEmptyCategory = DefaultCodable<DefaultEmptyCategoryStrategy>
 
 // MARK: - Keys
 
 extension Key {
-    struct Item {
+    struct Category {
         static let uid = "uid"
         static let name = "name"
         static let headerImageUrl = "headerImageUrl"
     }
 }
-
 
 

@@ -9,5 +9,6 @@ import Foundation
 import UIKit
 
 struct Setup {
-    static let profilImageCompressionQuality: CGFloat = 0.2
+    static let profileImageCompressionQuality: CGFloat = 0.2
+    static let categoryHeaderImageCompressionQuality: CGFloat = 0.2
 }

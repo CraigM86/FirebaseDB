@@ -103,6 +103,25 @@ struct SparkFirestore {
         }
     }
     
+    // MARK: - Category
+    
+    static func createCategory(_ category: Category, completion: @escaping (Result<Bool, Error>) -> ()) {
+        let categoryBase = SparkFirestoreReferenceManager.categoryBase()
+        let reference = categoryBase.reference
+        let uid = categoryBase.uid
+        
+        var updatedCategory = category
+        updatedCategory.uid = uid
+        
+        reference.setData(updatedCategory.dictionary(mapped: true)) { (err) in
+            if let err = err {
+                completion(.failure(err))
+                return
+            }
+            completion(.success(true))
+        }
+    }
+    
     // MARK: - fileprivate Firestore functions
     
     static fileprivate func getDocument(for reference: DocumentReference, completion: @escaping (Result<[String : Any], Error>) -> ()) {

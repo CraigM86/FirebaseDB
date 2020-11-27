@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		0403947C256CDE5100EA3A35 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0403947B256CDE5100EA3A35 /* Service.swift */; };
 		04039480256CE0E300EA3A35 /* SparkUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0403947F256CE0E300EA3A35 /* SparkUI */; };
-		04039486256CE27E00EA3A35 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04039485256CE27E00EA3A35 /* Section.swift */; };
-		0403948A256CE28800EA3A35 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04039489256CE28800EA3A35 /* Item.swift */; };
 		0403948F256CE3A400EA3A35 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0403948E256CE3A400EA3A35 /* CollectionViewCell.swift */; };
 		04039493256CE3CC00EA3A35 /* CollectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04039492256CE3CC00EA3A35 /* CollectionHeader.swift */; };
 		04039496256CE86A00EA3A35 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04039495256CE86A00EA3A35 /* GoogleService-Info.plist */; };
@@ -37,12 +35,14 @@
 		C98DDF4B257111CA0098DD22 /* Admin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DDF4A257111CA0098DD22 /* Admin.swift */; };
 		C98DDF4E257112B40098DD22 /* SparkFirestoreQueryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DDF4D257112B40098DD22 /* SparkFirestoreQueryManager.swift */; };
 		C98DDF522571174C0098DD22 /* AdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DDF512571174C0098DD22 /* AdminViewController.swift */; };
+		C98DDF5525711A100098DD22 /* AddCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DDF5425711A100098DD22 /* AddCategoryViewController.swift */; };
+		C98DDF5825711A290098DD22 /* AddItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DDF5725711A290098DD22 /* AddItemViewController.swift */; };
+		C98DDF5B25711D2E0098DD22 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DDF5A25711D2E0098DD22 /* Category.swift */; };
+		C98DDF5F25711DC00098DD22 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DDF5E25711DC00098DD22 /* Item.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0403947B256CDE5100EA3A35 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
-		04039485256CE27E00EA3A35 /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
-		04039489256CE28800EA3A35 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		0403948E256CE3A400EA3A35 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		04039492256CE3CC00EA3A35 /* CollectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionHeader.swift; sourceTree = "<group>"; };
 		04039495256CE86A00EA3A35 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -74,6 +74,10 @@
 		C98DDF4A257111CA0098DD22 /* Admin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Admin.swift; sourceTree = "<group>"; };
 		C98DDF4D257112B40098DD22 /* SparkFirestoreQueryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkFirestoreQueryManager.swift; sourceTree = "<group>"; };
 		C98DDF512571174C0098DD22 /* AdminViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminViewController.swift; sourceTree = "<group>"; };
+		C98DDF5425711A100098DD22 /* AddCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryViewController.swift; sourceTree = "<group>"; };
+		C98DDF5725711A290098DD22 /* AddItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemViewController.swift; sourceTree = "<group>"; };
+		C98DDF5A25711D2E0098DD22 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		C98DDF5E25711DC00098DD22 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,10 +104,10 @@
 		04039484256CE24B00EA3A35 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				04039485256CE27E00EA3A35 /* Section.swift */,
-				04039489256CE28800EA3A35 /* Item.swift */,
 				C926506E256D1949002D4CB0 /* Profile.swift */,
 				C98DDF4A257111CA0098DD22 /* Admin.swift */,
+				C98DDF5A25711D2E0098DD22 /* Category.swift */,
+				C98DDF5E25711DC00098DD22 /* Item.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -213,6 +217,8 @@
 			isa = PBXGroup;
 			children = (
 				C98DDF512571174C0098DD22 /* AdminViewController.swift */,
+				C98DDF5425711A100098DD22 /* AddCategoryViewController.swift */,
+				C98DDF5725711A290098DD22 /* AddItemViewController.swift */,
 			);
 			path = Admin;
 			sourceTree = "<group>";
@@ -339,13 +345,15 @@
 			files = (
 				C98DDF4E257112B40098DD22 /* SparkFirestoreQueryManager.swift in Sources */,
 				C926507B256D1BD4002D4CB0 /* SparkError.swift in Sources */,
-				04039486256CE27E00EA3A35 /* Section.swift in Sources */,
 				04589967256514270038A4AC /* HomeViewController.swift in Sources */,
 				C98DDF4B257111CA0098DD22 /* Admin.swift in Sources */,
+				C98DDF5825711A290098DD22 /* AddItemViewController.swift in Sources */,
 				C90720432571006300F1C23A /* SettingsViewController.swift in Sources */,
+				C98DDF5525711A100098DD22 /* AddCategoryViewController.swift in Sources */,
 				C9265075256D1A54002D4CB0 /* SparkFirebaseRootReference.swift in Sources */,
 				C9265078256D1AA6002D4CB0 /* SparkKey.swift in Sources */,
 				C9265069256D1693002D4CB0 /* TabBarController.swift in Sources */,
+				C98DDF5F25711DC00098DD22 /* Item.swift in Sources */,
 				C907206325710B1C00F1C23A /* SparkStorage.swift in Sources */,
 				C926506F256D1949002D4CB0 /* Profile.swift in Sources */,
 				C926506C256D18E1002D4CB0 /* SparkFirestore.swift in Sources */,
@@ -357,11 +365,11 @@
 				0403948F256CE3A400EA3A35 /* CollectionViewCell.swift in Sources */,
 				C9265050256D159B002D4CB0 /* SparkBuckets.swift in Sources */,
 				04589963256514270038A4AC /* AppDelegate.swift in Sources */,
-				0403948A256CE28800EA3A35 /* Item.swift in Sources */,
 				04039493256CE3CC00EA3A35 /* CollectionHeader.swift in Sources */,
 				C926507E256D1FC5002D4CB0 /* AuthViewController.swift in Sources */,
 				C98DDF522571174C0098DD22 /* AdminViewController.swift in Sources */,
 				04589965256514270038A4AC /* SceneDelegate.swift in Sources */,
+				C98DDF5B25711D2E0098DD22 /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,5 @@
 //
-//  AdminViewController.swift
+//  AddItemViewController.swift
 //  FirebaseDB
 //
 //  Created by Alex Nagy on 27.11.2020.
@@ -11,7 +11,7 @@ import Layoutless
 
 // MARK: - Protocols
 
-class AdminViewController: SViewController {
+class AddItemViewController: SImagePickerViewController {
     
     // MARK: - Dependencies
     
@@ -23,19 +23,19 @@ class AdminViewController: SViewController {
     
     // MARK: - Navigation items
     
+    lazy var saveBarButtonItem = UIBarButtonItem(title: "Save", style: .done) {
+        guard let image = self.headerImageView.image, let name = self.nameTextField.object.text, name != "" else {
+            return
+        }
+        
+    }
+    
     // MARK: - Views
     
-    let addCategoryLabel = UILabel()
-        .text("Add Category")
-        .text(color: .systemGreen)
-        .textAlignment(.center)
-        .bold()
-    
-    let addItemLabel = UILabel()
-        .text("Add Item")
-        .text(color: .systemGreen)
-        .textAlignment(.center)
-        .bold()
+    lazy var headerImageView = UIImageView()
+        .background(color: .systemGray5)
+        .square(self.view.frame.size.width)
+    let nameTextField = STextField().placeholder("Name")
     
     // MARK: - init - deinit
     
@@ -51,11 +51,12 @@ class AdminViewController: SViewController {
     
     override func setupNavigationBar() {
         super.setupNavigationBar()
-        title = "Admin: \(SparkBuckets.currentUserProfile.value.name)"
+        title = "Add new item"
     }
     
     override func configureNavigationBar() {
         super.configureNavigationBar()
+        self.navigationItem.setRightBarButton(saveBarButtonItem, animated: false)
     }
     
     override func setupViews() {
@@ -66,10 +67,10 @@ class AdminViewController: SViewController {
         super.layoutViews()
         
         stack(.vertical, spacing: 15)(
-            addCategoryLabel,
-            addItemLabel,
+            headerImageView,
+            nameTextField,
             Spacer()
-        ).insetting(by: 12).fillingParent().layout(in: container)
+        ).insetting(by: 12).scrolling(.vertical).fillingParent().layout(in: container)
         
     }
     
@@ -80,19 +81,17 @@ class AdminViewController: SViewController {
     override func addActions() {
         super.addActions()
         
-        addCategoryLabel.addAction {
-            let controller = AddCategoryViewController()
-            self.navigationController?.pushViewController(controller, animated: true)
-        }
-        
-        addItemLabel.addAction {
-            let controller = AddItemViewController()
-            self.navigationController?.pushViewController(controller, animated: true)
+        headerImageView.addAction {
+            self.showChooseImageSourceTypeAlertController()
         }
     }
     
     override func subscribe() {
         super.subscribe()
+        
+        imagePickerControllerImage.subscribe(with: self) { (image) in
+            self.headerImageView.image = image
+        }
     }
     
     override func onLoad() {
