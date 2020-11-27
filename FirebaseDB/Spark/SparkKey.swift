@@ -12,4 +12,8 @@ struct SparkKey {
     struct CollectionPath {
         static let profiles = "profiles"
     }
+    
+    struct StoragePath {
+        static let profileImages = "profileImages"
+    }
 }

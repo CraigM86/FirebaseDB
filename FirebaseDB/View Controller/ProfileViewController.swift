@@ -23,20 +23,9 @@ class ProfileViewController: SViewController {
     
     // MARK: - Navigation items
     
-    lazy var logoutBarButtonItem = UIBarButtonItem(title: "Logout", style: .done) {
-        
-        let confirmAction = UIAlertAction(title: "Confirm", style: .destructive) { (action) in
-            SparkAuth.signOut { (result) in
-                switch result {
-                case .success(let finished):
-                    print("Logged out with success: \(finished)")
-                case .failure(let err):
-                    Alert.showError(message: err.localizedDescription)
-                }
-            }
-        }
-        
-        Alert.show(.alert, title: "Logout", message: "Are you sure you want to log out?", actions: [confirmAction, Alert.cancelAction()], completion: nil)
+    lazy var settingsBarButtonItem = UIBarButtonItem(systemImageNamed: "slider.horizontal.3") {
+        let controller = SettingsViewController()
+        self.navigationController?.pushViewController(controller, animated: true)
     }
     
     // MARK: - Views
@@ -55,7 +44,7 @@ class ProfileViewController: SViewController {
     
     override func setupNavigationBar() {
         super.setupNavigationBar()
-        self.navigationItem.setRightBarButton(logoutBarButtonItem, animated: false)
+        self.navigationItem.setRightBarButton(settingsBarButtonItem, animated: false)
     }
     
     override func configureNavigationBar() {

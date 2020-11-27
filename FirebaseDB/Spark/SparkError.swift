@@ -27,6 +27,11 @@ struct SparkFirestoreError {
     static let noNextQuery = NSError(domain: "No Next Query", code: 2, userInfo: nil)
 }
 
+struct SparkStorageError: Error {
+    static let noImageAvailable = NSError(domain: "No Image Available", code: 3, userInfo: nil)
+    static let noUrl = NSError(domain: "No URL", code: 3, userInfo: nil)
+}
+
 struct SignInWithAppleAuthError: Error {
     static let noAuthDataResult = NSError(domain: "No Auth Data Result", code: 4, userInfo: nil)
 }

@@ -20,6 +20,9 @@
 		0458996C256514280038A4AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0458996B256514280038A4AC /* Assets.xcassets */; };
 		0458996F256514280038A4AC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0458996D256514280038A4AC /* LaunchScreen.storyboard */; };
 		1B20753CD113417C8B255A41 /* Pods_FirebaseDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2B0F77D491C46E66E82533D /* Pods_FirebaseDB.framework */; };
+		C90720432571006300F1C23A /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90720422571006300F1C23A /* SettingsViewController.swift */; };
+		C907206325710B1C00F1C23A /* SparkStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C907206225710B1C00F1C23A /* SparkStorage.swift */; };
+		C907207D25710D5600F1C23A /* Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C907207C25710D5600F1C23A /* Setup.swift */; };
 		C926504D256D1530002D4CB0 /* SparkAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = C926504C256D1530002D4CB0 /* SparkAuth.swift */; };
 		C9265050256D159B002D4CB0 /* SparkBuckets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C926504F256D159B002D4CB0 /* SparkBuckets.swift */; };
 		C9265069256D1693002D4CB0 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9265068256D1693002D4CB0 /* TabBarController.swift */; };
@@ -50,6 +53,9 @@
 		32F80DB424BC65D4AF2A1708 /* Pods-FirebaseDB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirebaseDB.release.xcconfig"; path = "Target Support Files/Pods-FirebaseDB/Pods-FirebaseDB.release.xcconfig"; sourceTree = "<group>"; };
 		A2B0F77D491C46E66E82533D /* Pods_FirebaseDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FirebaseDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A8DC188571B15AE3D4C1A013 /* Pods-FirebaseDB.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirebaseDB.debug.xcconfig"; path = "Target Support Files/Pods-FirebaseDB/Pods-FirebaseDB.debug.xcconfig"; sourceTree = "<group>"; };
+		C90720422571006300F1C23A /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		C907206225710B1C00F1C23A /* SparkStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkStorage.swift; sourceTree = "<group>"; };
+		C907207C25710D5600F1C23A /* Setup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setup.swift; sourceTree = "<group>"; };
 		C926504C256D1530002D4CB0 /* SparkAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkAuth.swift; sourceTree = "<group>"; };
 		C926504F256D159B002D4CB0 /* SparkBuckets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkBuckets.swift; sourceTree = "<group>"; };
 		C9265068256D1693002D4CB0 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -111,6 +117,7 @@
 				C926507D256D1FC5002D4CB0 /* AuthViewController.swift */,
 				C9265068256D1693002D4CB0 /* TabBarController.swift */,
 				C9265080256D234F002D4CB0 /* ProfileViewController.swift */,
+				C90720422571006300F1C23A /* SettingsViewController.swift */,
 			);
 			path = "View Controller";
 			sourceTree = "<group>";
@@ -173,6 +180,7 @@
 			children = (
 				04589964256514270038A4AC /* SceneDelegate.swift */,
 				04589962256514270038A4AC /* AppDelegate.swift */,
+				C907207C25710D5600F1C23A /* Setup.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -182,6 +190,7 @@
 			children = (
 				C926504C256D1530002D4CB0 /* SparkAuth.swift */,
 				C926506B256D18E1002D4CB0 /* SparkFirestore.swift */,
+				C907206225710B1C00F1C23A /* SparkStorage.swift */,
 				C9265071256D1A33002D4CB0 /* SparkFirestoreReferenceManager.swift */,
 				C9265074256D1A54002D4CB0 /* SparkFirebaseRootReference.swift */,
 				C9265077256D1AA6002D4CB0 /* SparkKey.swift */,
@@ -314,12 +323,15 @@
 				C926507B256D1BD4002D4CB0 /* SparkError.swift in Sources */,
 				04039486256CE27E00EA3A35 /* Section.swift in Sources */,
 				04589967256514270038A4AC /* HomeViewController.swift in Sources */,
+				C90720432571006300F1C23A /* SettingsViewController.swift in Sources */,
 				C9265075256D1A54002D4CB0 /* SparkFirebaseRootReference.swift in Sources */,
 				C9265078256D1AA6002D4CB0 /* SparkKey.swift in Sources */,
 				C9265069256D1693002D4CB0 /* TabBarController.swift in Sources */,
+				C907206325710B1C00F1C23A /* SparkStorage.swift in Sources */,
 				C926506F256D1949002D4CB0 /* Profile.swift in Sources */,
 				C926506C256D18E1002D4CB0 /* SparkFirestore.swift in Sources */,
 				C926504D256D1530002D4CB0 /* SparkAuth.swift in Sources */,
+				C907207D25710D5600F1C23A /* Setup.swift in Sources */,
 				C9265081256D234F002D4CB0 /* ProfileViewController.swift in Sources */,
 				0403947C256CDE5100EA3A35 /* Service.swift in Sources */,
 				C9265072256D1A33002D4CB0 /* SparkFirestoreReferenceManager.swift in Sources */,

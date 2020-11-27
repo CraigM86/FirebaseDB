@@ -6,10 +6,10 @@
 //
 
 import FirebaseFirestore
-//import FirebaseStorage
+import FirebaseStorage
 
 struct SparkFirebaseRootReference {
     static let firestore = Firestore.firestore()
-//    static let baseStorage = Storage.storage()
-//    static let storage = Storage.storage().reference()
+    static let baseStorage = Storage.storage()
+    static let storage = Storage.storage().reference()
 }

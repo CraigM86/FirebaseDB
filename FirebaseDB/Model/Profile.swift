@@ -15,18 +15,22 @@ struct Profile: Codable {
     
     @DefaultEmptyString var uid: String
     @DefaultEmptyString var name: String
+    @DefaultEmptyString var profileImageUrl: String
     
     // MARK: - Initializer
     
     init(uid: String? = nil,
-         name: String? = nil) {
+         name: String? = nil,
+         profileImageUrl: String? = nil) {
         self.uid = uid ?? String.empty
         self.name = name ?? String.empty
+        self.profileImageUrl = profileImageUrl ?? String.empty
     }
     
     init(with dictionary: [String: Any]? = nil) {
         uid = dictionary?[Key.Profile.uid] as? String ?? String.empty
         name = dictionary?[Key.Profile.name] as? String ?? String.empty
+        profileImageUrl = dictionary?[Key.Profile.profileImageUrl] as? String ?? String.empty
     }
     
     // MARK: - Dictionary
@@ -35,12 +39,14 @@ struct Profile: Codable {
         if mapped {
             return [
                 Key.Profile.uid: uid,
-                Key.Profile.name: name
+                Key.Profile.name: name,
+                Key.Profile.profileImageUrl: profileImageUrl
             ]
         } else {
             return [
                 Key.Profile.uid: uid,
-                Key.Profile.name: name
+                Key.Profile.name: name,
+                Key.Profile.profileImageUrl: profileImageUrl
             ]
         }
     }
@@ -60,6 +66,7 @@ extension Key {
     struct Profile {
         static let uid = "uid"
         static let name = "name"
+        static let profileImageUrl = "profileImageUrl"
     }
 }
 
