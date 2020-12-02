@@ -11,4 +11,5 @@ import UIKit
 struct Setup {
     static let profileImageCompressionQuality: CGFloat = 0.2
     static let categoryHeaderImageCompressionQuality: CGFloat = 0.2
+    static let itemHeaderImageCompressionQuality: CGFloat = 0.2
 }

@@ -13,6 +13,7 @@ struct SparkKey {
         static let profiles = "profiles"
         static let admins = "admins"
         static let categories = "categories"
+        static let items = "items"
     }
     
     struct StoragePath {

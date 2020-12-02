@@ -29,13 +29,16 @@
 		C926507B256D1BD4002D4CB0 /* SparkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C926507A256D1BD4002D4CB0 /* SparkError.swift */; };
 		C926507E256D1FC5002D4CB0 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C926507D256D1FC5002D4CB0 /* AuthViewController.swift */; };
 		C9265081256D234F002D4CB0 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9265080256D234F002D4CB0 /* ProfileViewController.swift */; };
+		C95FCBB0257793E000348D90 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C95FCBAF257793E000348D90 /* IQKeyboardManagerSwift */; };
+		C95FCBB52577994700348D90 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95FCBB42577994700348D90 /* CategoryCell.swift */; };
 		C98DDF4B257111CA0098DD22 /* Admin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DDF4A257111CA0098DD22 /* Admin.swift */; };
 		C98DDF4E257112B40098DD22 /* SparkFirestoreQueryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DDF4D257112B40098DD22 /* SparkFirestoreQueryManager.swift */; };
 		C98DDF522571174C0098DD22 /* AdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DDF512571174C0098DD22 /* AdminViewController.swift */; };
-		C98DDF5525711A100098DD22 /* AddCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DDF5425711A100098DD22 /* AddCategoryViewController.swift */; };
-		C98DDF5825711A290098DD22 /* AddItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DDF5725711A290098DD22 /* AddItemViewController.swift */; };
+		C98DDF5525711A100098DD22 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DDF5425711A100098DD22 /* CategoryViewController.swift */; };
+		C98DDF5825711A290098DD22 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DDF5725711A290098DD22 /* ItemViewController.swift */; };
 		C98DDF5B25711D2E0098DD22 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DDF5A25711D2E0098DD22 /* Category.swift */; };
 		C98DDF5F25711DC00098DD22 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98DDF5E25711DC00098DD22 /* Item.swift */; };
+		C9C927CA257790CC00A3866E /* Stax in Frameworks */ = {isa = PBXBuildFile; productRef = C9C927C9257790CC00A3866E /* Stax */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,11 +68,12 @@
 		C926507D256D1FC5002D4CB0 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		C9265080256D234F002D4CB0 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		C9265083256D258D002D4CB0 /* FirebaseDB.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FirebaseDB.entitlements; sourceTree = "<group>"; };
+		C95FCBB42577994700348D90 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		C98DDF4A257111CA0098DD22 /* Admin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Admin.swift; sourceTree = "<group>"; };
 		C98DDF4D257112B40098DD22 /* SparkFirestoreQueryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkFirestoreQueryManager.swift; sourceTree = "<group>"; };
 		C98DDF512571174C0098DD22 /* AdminViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminViewController.swift; sourceTree = "<group>"; };
-		C98DDF5425711A100098DD22 /* AddCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryViewController.swift; sourceTree = "<group>"; };
-		C98DDF5725711A290098DD22 /* AddItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemViewController.swift; sourceTree = "<group>"; };
+		C98DDF5425711A100098DD22 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		C98DDF5725711A290098DD22 /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
 		C98DDF5A25711D2E0098DD22 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		C98DDF5E25711DC00098DD22 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -80,6 +84,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				04039480256CE0E300EA3A35 /* SparkUI in Frameworks */,
+				C95FCBB0257793E000348D90 /* IQKeyboardManagerSwift in Frameworks */,
+				C9C927CA257790CC00A3866E /* Stax in Frameworks */,
 				1B20753CD113417C8B255A41 /* Pods_FirebaseDB.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -208,8 +214,9 @@
 			isa = PBXGroup;
 			children = (
 				C98DDF512571174C0098DD22 /* AdminViewController.swift */,
-				C98DDF5425711A100098DD22 /* AddCategoryViewController.swift */,
-				C98DDF5725711A290098DD22 /* AddItemViewController.swift */,
+				C98DDF5425711A100098DD22 /* CategoryViewController.swift */,
+				C98DDF5725711A290098DD22 /* ItemViewController.swift */,
+				C95FCBB42577994700348D90 /* CategoryCell.swift */,
 			);
 			path = Admin;
 			sourceTree = "<group>";
@@ -234,6 +241,8 @@
 			name = FirebaseDB;
 			packageProductDependencies = (
 				0403947F256CE0E300EA3A35 /* SparkUI */,
+				C9C927C9257790CC00A3866E /* Stax */,
+				C95FCBAF257793E000348D90 /* IQKeyboardManagerSwift */,
 			);
 			productName = FirebaseDB;
 			productReference = 0458995F256514270038A4AC /* FirebaseDB.app */;
@@ -264,6 +273,8 @@
 			mainGroup = 04589956256514270038A4AC;
 			packageReferences = (
 				0403947E256CE0E300EA3A35 /* XCRemoteSwiftPackageReference "SparkUI" */,
+				C9C927C8257790CC00A3866E /* XCRemoteSwiftPackageReference "Stax" */,
+				C95FCBAE257793E000348D90 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = 04589960256514270038A4AC /* Products */;
 			projectDirPath = "";
@@ -338,9 +349,10 @@
 				C926507B256D1BD4002D4CB0 /* SparkError.swift in Sources */,
 				04589967256514270038A4AC /* HomeViewController.swift in Sources */,
 				C98DDF4B257111CA0098DD22 /* Admin.swift in Sources */,
-				C98DDF5825711A290098DD22 /* AddItemViewController.swift in Sources */,
+				C95FCBB52577994700348D90 /* CategoryCell.swift in Sources */,
+				C98DDF5825711A290098DD22 /* ItemViewController.swift in Sources */,
 				C90720432571006300F1C23A /* SettingsViewController.swift in Sources */,
-				C98DDF5525711A100098DD22 /* AddCategoryViewController.swift in Sources */,
+				C98DDF5525711A100098DD22 /* CategoryViewController.swift in Sources */,
 				C9265075256D1A54002D4CB0 /* SparkFirebaseRootReference.swift in Sources */,
 				C9265078256D1AA6002D4CB0 /* SparkKey.swift in Sources */,
 				C9265069256D1693002D4CB0 /* TabBarController.swift in Sources */,
@@ -565,6 +577,22 @@
 				minimumVersion = 0.12.35;
 			};
 		};
+		C95FCBAE257793E000348D90 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.5.6;
+			};
+		};
+		C9C927C8257790CC00A3866E /* XCRemoteSwiftPackageReference "Stax" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/rebeloper/Stax.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -572,6 +600,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0403947E256CE0E300EA3A35 /* XCRemoteSwiftPackageReference "SparkUI" */;
 			productName = SparkUI;
+		};
+		C95FCBAF257793E000348D90 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C95FCBAE257793E000348D90 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
+		};
+		C9C927C9257790CC00A3866E /* Stax */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C9C927C8257790CC00A3866E /* XCRemoteSwiftPackageReference "Stax" */;
+			productName = Stax;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

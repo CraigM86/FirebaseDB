@@ -14,12 +14,14 @@ struct Item: Codable {
     // MARK: - Properties
     
     @DefaultEmptyString var uid: String
+    @DefaultEmptyString var categoryUid: String
     @DefaultEmptyString var name: String
     @DefaultEmptyString var headerImageUrl: String
     
     // MARK: - Initializer
     
     init(uid: String? = nil,
+         categoryUid: String? = nil,
          name: String? = nil,
          headerImageUrl: String? = nil) {
         self.uid = uid ?? String.empty
@@ -29,6 +31,7 @@ struct Item: Codable {
     
     init(with dictionary: [String: Any]? = nil) {
         uid = dictionary?[Key.Item.uid] as? String ?? String.empty
+        categoryUid = dictionary?[Key.Item.categoryUid] as? String ?? String.empty
         name = dictionary?[Key.Item.name] as? String ?? String.empty
         headerImageUrl = dictionary?[Key.Item.headerImageUrl] as? String ?? String.empty
     }
@@ -39,12 +42,14 @@ struct Item: Codable {
         if mapped {
             return [
                 Key.Item.uid: uid,
+                Key.Item.categoryUid: categoryUid,
                 Key.Item.name: name,
                 Key.Item.headerImageUrl: headerImageUrl
             ]
         } else {
             return [
                 Key.Item.uid: uid,
+                Key.Item.categoryUid: categoryUid,
                 Key.Item.name: name,
                 Key.Item.headerImageUrl: headerImageUrl
             ]
@@ -65,6 +70,7 @@ typealias DefaultEmptyItem = DefaultCodable<DefaultEmptyItemStrategy>
 extension Key {
     struct Item {
         static let uid = "uid"
+        static let categoryUid = "categoryUid"
         static let name = "name"
         static let headerImageUrl = "headerImageUrl"
     }

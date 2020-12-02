@@ -16,4 +16,15 @@ struct SparkFirestoreQueryManager {
         return SparkFirebaseRootReference.firestore
             .collection(SparkKey.CollectionPath.admins)
     }
+    
+    static func queryForCategories() -> Query {
+        return SparkFirebaseRootReference.firestore
+            .collection(SparkKey.CollectionPath.categories)
+    }
+    
+    static func queryForItems(categoryUid: String) -> Query {
+        return SparkFirebaseRootReference.firestore
+            .collection(SparkKey.CollectionPath.items)
+            .whereField(Key.Item.categoryUid, isEqualTo: categoryUid)
+    }
 }

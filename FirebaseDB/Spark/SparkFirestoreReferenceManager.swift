@@ -20,7 +20,7 @@ struct SparkFirestoreReferenceManager {
     
     // MARK: - Categories
     
-    static func referenceForCategories(with uid: String) -> DocumentReference {
+    static func referenceForCategory(with uid: String) -> DocumentReference {
         return SparkFirebaseRootReference.firestore
             .collection(SparkKey.CollectionPath.categories)
             .document(uid)
@@ -29,6 +29,21 @@ struct SparkFirestoreReferenceManager {
     static func categoryBase() -> (reference: DocumentReference, uid: String) {
         let reference = SparkFirebaseRootReference.firestore
             .collection(SparkKey.CollectionPath.categories).document()
+        let uid = reference.documentID
+        return (reference, uid)
+    }
+    
+    // MARK: - Items
+    
+    static func referenceForItem(with uid: String) -> DocumentReference {
+        return SparkFirebaseRootReference.firestore
+            .collection(SparkKey.CollectionPath.items)
+            .document(uid)
+    }
+    
+    static func itemBase() -> (reference: DocumentReference, uid: String) {
+        let reference = SparkFirebaseRootReference.firestore
+            .collection(SparkKey.CollectionPath.items).document()
         let uid = reference.documentID
         return (reference, uid)
     }

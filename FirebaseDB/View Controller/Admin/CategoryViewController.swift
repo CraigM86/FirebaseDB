@@ -1,5 +1,5 @@
 //
-//  AddCategoryViewController.swift
+//  CategoryViewController.swift
 //  FirebaseDB
 //
 //  Created by Alex Nagy on 27.11.2020.
@@ -11,7 +11,7 @@ import Layoutless
 
 // MARK: - Protocols
 
-class AddCategoryViewController: SImagePickerViewController {
+class CategoryViewController: SImagePickerViewController {
     
     // MARK: - Dependencies
     
@@ -36,10 +36,24 @@ class AddCategoryViewController: SImagePickerViewController {
             case .success(let url):
                 Hud.large.update(message: "Updating database...")
                 if self.category == nil {
-                    // update category here later
-                } else {
                     let category = Category(uid: "", name: name, headerImageUrl: url.absoluteString)
                     SparkFirestore.createCategory(category) { (result) in
+                        Hud.large.hide()
+                        switch result {
+                        case .success(let finished):
+                            if finished {
+                                self.navigationController?.popViewController(animated: true)
+                            } else {
+                                Alert.showErrorSomethingWentWrong()
+                            }
+                        case .failure(let err):
+                            Alert.showError(message: err.localizedDescription)
+                        }
+                    }
+                } else {
+                    var updatedCategory = Category(uid: self.category!.uid, name: name, headerImageUrl: url.absoluteString)
+                    
+                    SparkFirestore.updateCategory(updatedCategory) { (result) in
                         Hud.large.hide()
                         switch result {
                         case .success(let finished):
@@ -81,7 +95,7 @@ class AddCategoryViewController: SImagePickerViewController {
     
     override func setupNavigationBar() {
         super.setupNavigationBar()
-        title = "Add new category"
+        title = self.category == nil ? "Add new category" : "Edit category"
     }
     
     override func configureNavigationBar() {
@@ -91,6 +105,11 @@ class AddCategoryViewController: SImagePickerViewController {
     
     override func setupViews() {
         super.setupViews()
+        
+        guard let category = category else { return }
+        
+        headerImageView.setImage(from: category.headerImageUrl, renderingMode: .alwaysOriginal, contentMode: .scaleAspectFill, placeholderImage: nil, indicatorType: .activity)
+        nameTextField.text(category.name)
     }
     
     override func layoutViews() {
