@@ -9,6 +9,8 @@ import UIKit
 import SparkUI
 import Layoutless
 
+let adminController = AdminViewController()
+
 // MARK: - Protocols
 
 class SettingsViewController: SImagePickerViewController {
@@ -145,8 +147,7 @@ class SettingsViewController: SImagePickerViewController {
         }
         
         adminLabel.addAction {
-            let controller = AdminViewController()
-            self.navigationController?.pushViewController(controller, animated: true)
+            self.navigationController?.pushViewController(adminController, animated: true)
         }
     }
     

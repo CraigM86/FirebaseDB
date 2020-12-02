@@ -102,14 +102,36 @@ class ItemListViewController: SViewController {
             Hud.large.hide()
             switch result {
             case .success(let items):
-                let okAction = UIAlertAction(title: "OK", style: .cancel) { (action) in
-                    self.navigationController?.popViewController(animated: true)
-                }
+                SparkBuckets.items.value = items
                 if items.count == 0 {
-                    Alert.show(.alert, title: "No items found", message: nil, actions: [okAction], completion: nil)
+                    let goBackAction = UIAlertAction(title: "Go back", style: .default) { (action) in
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                    
+                    let deleteAction = UIAlertAction(title: "Delete '\(category.name)'", style: .destructive) { (action) in
+                        
+                        let confirmAction = UIAlertAction(title: "Confirm", style: .destructive) { (action) in
+                            Hud.large.showWorking(message: "Deleting category...")
+                            SparkFirestore.deleteCategory(uid: category.uid) { (result) in
+                                Hud.large.hide()
+                                switch result {
+                                case .success(let finished):
+                                    if finished {
+                                        self.navigationController?.popToViewController(adminController, animated: true)
+                                    } else {
+                                        Alert.showErrorSomethingWentWrong()
+                                    }
+                                case .failure(let err):
+                                    Alert.showError(message: err.localizedDescription)
+                                }
+                            }
+                        }
+                        Alert.show(.alert, title: "Delete", message: "Do you really want to delete this category?", actions: [confirmAction, goBackAction], completion: nil)
+                    }
+                    
+                    Alert.show(.alert, title: "No items found", message: nil, actions: [deleteAction, goBackAction], completion: nil)
                     return
                 }
-                SparkBuckets.items.value = items
             case .failure(let err):
                 Alert.showError(message: err.localizedDescription)
             }

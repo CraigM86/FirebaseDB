@@ -107,6 +107,8 @@ class CategoryViewController: SImagePickerViewController {
     override func setupViews() {
         super.setupViews()
         
+        itemsLabel.isHidden(category == nil)
+        
         guard let category = category else { return }
         
         headerImageView.setImage(from: category.headerImageUrl, renderingMode: .alwaysOriginal, contentMode: .scaleAspectFill, placeholderImage: nil, indicatorType: .activity)

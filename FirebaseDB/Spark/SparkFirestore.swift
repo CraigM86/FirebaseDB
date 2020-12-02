@@ -169,6 +169,17 @@ struct SparkFirestore {
         }
     }
     
+    static func deleteCategory(uid: String, completion: @escaping (Result<Bool, Error>) -> ()) {
+        let reference = SparkFirestoreReferenceManager.referenceForCategory(with: uid)
+        reference.delete { (err) in
+            if let err = err {
+                completion(.failure(err))
+                return
+            }
+            completion(.success(true))
+        }
+    }
+    
     // MARK: - Item
     
     static func createItem(_ item: Item, completion: @escaping (Result<Bool, Error>) -> ()) {
@@ -226,6 +237,17 @@ struct SparkFirestore {
         let reference = SparkFirestoreReferenceManager.referenceForItem(with: item.uid)
         
         reference.updateData(item.dictionary(mapped: true)) { (err) in
+            if let err = err {
+                completion(.failure(err))
+                return
+            }
+            completion(.success(true))
+        }
+    }
+    
+    static func deleteItem(uid: String, completion: @escaping (Result<Bool, Error>) -> ()) {
+        let reference = SparkFirestoreReferenceManager.referenceForItem(with: uid)
+        reference.delete { (err) in
             if let err = err {
                 completion(.failure(err))
                 return

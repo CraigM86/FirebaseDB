@@ -83,6 +83,7 @@ class ItemViewController: SImagePickerViewController {
         .background(color: .systemGray5)
         .square(self.view.frame.size.width)
     let nameTextField = STextField().placeholder("Name")
+    let deleteLabel = UILabel().text("Delete").textAlignment(.center).bold().text(color: .systemRed)
     
     // MARK: - init - deinit
     
@@ -109,6 +110,8 @@ class ItemViewController: SImagePickerViewController {
     override func setupViews() {
         super.setupViews()
         
+        deleteLabel.isHidden(item == nil)
+        
         guard let item = item else { return }
         
         headerImageView.setImage(from: item.headerImageUrl, renderingMode: .alwaysOriginal, contentMode: .scaleAspectFill, placeholderImage: nil, indicatorType: .activity)
@@ -121,6 +124,7 @@ class ItemViewController: SImagePickerViewController {
         stack(.vertical, spacing: 15)(
             headerImageView,
             nameTextField,
+            deleteLabel,
             Spacer()
         ).insetting(by: 12).scrolling(.vertical).fillingParent().layout(in: container)
         
@@ -135,6 +139,28 @@ class ItemViewController: SImagePickerViewController {
         
         headerImageView.addAction {
             self.showChooseImageSourceTypeAlertController()
+        }
+        
+        deleteLabel.addAction {
+            guard let item = self.item else { return }
+            let confirmAction = UIAlertAction(title: "Confirm", style: .destructive) { (action) in
+                Hud.large.showWorking(message: "Deleting item...")
+                SparkFirestore.deleteItem(uid: item.uid) { (result) in
+                    Hud.large.hide()
+                    switch result {
+                    case .success(let finished):
+                        if finished {
+                            self.navigationController?.popViewController(animated: true)
+                        } else {
+                            Alert.showErrorSomethingWentWrong()
+                        }
+                    case .failure(let err):
+                        Alert.showError(message: err.localizedDescription)
+                    }
+                }
+            }
+            
+            Alert.show(.alert, title: "Delete", message: "Do you really want to delete this item?", actions: [confirmAction, Alert.cancelAction()], completion: nil)
         }
     }
     
