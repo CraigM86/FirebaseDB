@@ -15,4 +15,5 @@ struct SparkBuckets {
     static let isAdmin = Bucket(false)
     
     static let categories = Bucket([Category]())
+    static let items = Bucket([Item]())
 }

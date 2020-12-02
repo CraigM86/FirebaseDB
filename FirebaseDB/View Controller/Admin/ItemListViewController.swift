@@ -1,8 +1,8 @@
 //
-//  AdminViewController.swift
+//  ItemListViewController.swift
 //  FirebaseDB
 //
-//  Created by Alex Nagy on 27.11.2020.
+//  Created by Alex Nagy on 02.12.2020.
 //
 
 import UIKit
@@ -11,9 +11,11 @@ import Layoutless
 
 // MARK: - Protocols
 
-class AdminViewController: SViewController {
+class ItemListViewController: SViewController {
     
     // MARK: - Dependencies
+    
+    var category: Category?
     
     // MARK: - Delegates
     
@@ -23,36 +25,11 @@ class AdminViewController: SViewController {
     
     // MARK: - Navigation items
     
-    lazy var addBarButtomItem = UIBarButtonItem(title: "Add", style: .done) {
-        
-        let addCategory = UIAlertAction(title: "New Category", style: .default) { (action) in
-            let controller = CategoryViewController()
-            self.navigationController?.pushViewController(controller, animated: true)
-        }
-        let addItem = UIAlertAction(title: "New Item", style: .default) { (action) in
-            var actions = [UIAlertAction]()
-            
-            SparkBuckets.categories.value.forEach { (category) in
-                let action = UIAlertAction(title: category.name, style: .default) { (action) in
-                    let controller = ItemViewController()
-                    controller.category = category
-                    self.navigationController?.pushViewController(controller, animated: true)
-                }
-                actions.append(action)
-            }
-            
-            actions.append(Alert.cancelAction())
-            Alert.show(.actionSheet, title: "Choose category", message: nil, actions: actions, completion: nil)
-        }
-        
-        Alert.show(.actionSheet, title: "Add", message: nil, actions: [addCategory, addItem, Alert.cancelAction()], completion: nil)
-    }
-    
     // MARK: - Views
     
     lazy var flowLayout = FlowLayout().item(width: self.view.frame.width, height: 50).scrollDirection(.vertical)
     lazy var collectionView = CollectionView(with: flowLayout, delegateAndDataSource: self)
-        .registerCell(AdminCell.self, forCellWithReuseIdentifier: AdminCell.reuseIdentifier)
+        .registerCell(ItemCell.self, forCellWithReuseIdentifier: ItemCell.reuseIdentifier)
     
     // MARK: - init - deinit
     
@@ -69,12 +46,10 @@ class AdminViewController: SViewController {
     
     override func setupNavigationBar() {
         super.setupNavigationBar()
-        title = "Admin: \(SparkBuckets.currentUserProfile.value.name)"
     }
     
     override func configureNavigationBar() {
         super.configureNavigationBar()
-        self.navigationItem.setRightBarButton(addBarButtomItem, animated: false)
     }
     
     override func setupViews() {
@@ -84,7 +59,7 @@ class AdminViewController: SViewController {
     override func layoutViews() {
         super.layoutViews()
         
-        stack(.vertical, spacing: 15)(
+        stack(.vertical)(
             collectionView
         ).fillingParent().layout(in: container)
         
@@ -96,13 +71,12 @@ class AdminViewController: SViewController {
     
     override func addActions() {
         super.addActions()
-        
     }
     
     override func subscribe() {
         super.subscribe()
         
-        SparkBuckets.categories.subscribe(with: self) { (categories) in
+        SparkBuckets.items.subscribe(with: self) { (categories) in
             self.collectionView.reloadData()
         }
     }
@@ -122,12 +96,20 @@ class AdminViewController: SViewController {
     // MARK: - fileprivate
     
     fileprivate func fetch() {
-        Hud.large.showWorking(message: "Fetching categories...")
-        SparkFirestore.retreiveCategories { (result) in
+        guard let category = category else { return }
+        Hud.large.showWorking(message: "Fetching items...")
+        SparkFirestore.retreiveItems(categoryUid: category.uid) { (result) in
             Hud.large.hide()
             switch result {
-            case .success(let categories):
-                SparkBuckets.categories.value = categories
+            case .success(let items):
+                let okAction = UIAlertAction(title: "OK", style: .cancel) { (action) in
+                    self.navigationController?.popViewController(animated: true)
+                }
+                if items.count == 0 {
+                    Alert.show(.alert, title: "No items found", message: nil, actions: [okAction], completion: nil)
+                    return
+                }
+                SparkBuckets.items.value = items
             case .failure(let err):
                 Alert.showError(message: err.localizedDescription)
             }
@@ -144,33 +126,34 @@ class AdminViewController: SViewController {
 
 // MARK: - Delegates
 
-extension AdminViewController: UICollectionViewDelegateFlowLayout {
+extension ItemListViewController: UICollectionViewDelegateFlowLayout {
     
 }
 
 // MARK: - Datasources
 
-extension AdminViewController: UICollectionViewDataSource {
+extension ItemListViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        SparkBuckets.categories.value.count
+        SparkBuckets.items.value.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AdminCell.reuseIdentifier, for: indexPath) as! AdminCell
-        let category = SparkBuckets.categories.value[indexPath.row]
-        cell.setup(with: category, at: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemCell.reuseIdentifier, for: indexPath) as! ItemCell
+        let item = SparkBuckets.items.value[indexPath.row]
+        cell.setup(with: item, at: indexPath)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let category = SparkBuckets.categories.value[indexPath.row]
+        let item = SparkBuckets.items.value[indexPath.row]
         
-        let controller = CategoryViewController()
+        let controller = ItemViewController()
+        controller.item = item
         controller.category = category
         self.navigationController?.pushViewController(controller, animated: true)
     }

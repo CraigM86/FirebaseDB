@@ -33,7 +33,7 @@ class ItemViewController: SImagePickerViewController {
             return
         }
         
-        Hud.large.showWorking(message: self.item == nil ? "Adding new item" : "Updating item")
+        Hud.large.showWorking(message: self.item == nil ? "Adding new item..." : "Updating item...")
         SparkStorage.handleImageChange(newImage: image, folderPath: SparkKey.StoragePath.itemHeaderImages, compressionQuality: Setup.itemHeaderImageCompressionQuality, oldImageUrl: self.item == nil ? "" : self.item!.headerImageUrl) { (result) in
             switch result {
             case .success(let url):
@@ -108,6 +108,11 @@ class ItemViewController: SImagePickerViewController {
     
     override func setupViews() {
         super.setupViews()
+        
+        guard let item = item else { return }
+        
+        headerImageView.setImage(from: item.headerImageUrl, renderingMode: .alwaysOriginal, contentMode: .scaleAspectFill, placeholderImage: nil, indicatorType: .activity)
+        nameTextField.text(item.name)
     }
     
     override func layoutViews() {

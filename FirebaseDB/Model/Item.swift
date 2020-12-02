@@ -25,6 +25,7 @@ struct Item: Codable {
          name: String? = nil,
          headerImageUrl: String? = nil) {
         self.uid = uid ?? String.empty
+        self.categoryUid = categoryUid ?? String.empty
         self.name = name ?? String.empty
         self.headerImageUrl = headerImageUrl ?? String.empty
     }

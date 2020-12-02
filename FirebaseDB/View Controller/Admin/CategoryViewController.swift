@@ -30,7 +30,7 @@ class CategoryViewController: SImagePickerViewController {
             return
         }
         
-        Hud.large.showWorking(message: self.category == nil ? "Adding new category" : "Updating category")
+        Hud.large.showWorking(message: self.category == nil ? "Adding new category..." : "Updating category...")
         SparkStorage.handleImageChange(newImage: image, folderPath: SparkKey.StoragePath.categoryHeaderImages, compressionQuality: Setup.categoryHeaderImageCompressionQuality, oldImageUrl: self.category == nil ? "" : self.category!.headerImageUrl) { (result) in
             switch result {
             case .success(let url):
@@ -80,6 +80,7 @@ class CategoryViewController: SImagePickerViewController {
         .background(color: .systemGray5)
         .square(self.view.frame.size.width)
     let nameTextField = STextField().placeholder("Name")
+    let itemsLabel = UILabel().text("See Items").textAlignment(.center).bold()
     
     // MARK: - init - deinit
     
@@ -118,6 +119,7 @@ class CategoryViewController: SImagePickerViewController {
         stack(.vertical, spacing: 15)(
             headerImageView,
             nameTextField,
+            itemsLabel,
             Spacer()
         ).insetting(by: 12).scrolling(.vertical).fillingParent().layout(in: container)
         
@@ -132,6 +134,12 @@ class CategoryViewController: SImagePickerViewController {
         
         headerImageView.addAction {
             self.showChooseImageSourceTypeAlertController()
+        }
+        
+        itemsLabel.addAction {
+            let controller = ItemListViewController()
+            controller.category = self.category
+            self.navigationController?.pushViewController(controller, animated: true)
         }
     }
     
