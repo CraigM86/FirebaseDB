@@ -24,7 +24,6 @@ class FeaturedItemCell: CollectionCell<Item>, SelfConfiguringCell {
         .textAlignment(.left)
         .font(.boldSystemFont(ofSize: 48))
         .setMultiline()
-        .width(self.frame.width - 72)
     
     override func layoutViews() {
         super.layoutViews()
@@ -36,7 +35,7 @@ class FeaturedItemCell: CollectionCell<Item>, SelfConfiguringCell {
         VStack(
             titleLabel,
             Spacer()
-        ).padding(by: 36).layout(in: container)
+        ).padding(by: 36).layout(in: container, withSafeArea: false)
         
     }
     

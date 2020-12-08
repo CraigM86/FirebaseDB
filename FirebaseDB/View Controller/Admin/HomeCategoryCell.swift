@@ -34,7 +34,7 @@ class HomeCategoryCell: CollectionCell<Category>, SelfConfiguringCell {
             .width(self.frame.width - 24)
             .background(color: .systemGray4)
             .setCorner(15)
-        ).padding(by: 12).layout(in: container)
+        ).padding(by: 12).layout(in: container, withSafeArea: false)
         
     }
     

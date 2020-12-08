@@ -25,8 +25,6 @@ class HomeViewController: SViewController {
     
     // MARK: - Views
     
-//    let view0 = UIView(height: 100, backgroundColor: .systemBlue, staxDebugOptions: StaxDebugOptions())
-    
     lazy var featuredItemsCollectionViewCellHeight = self.view.frame.width * Setup.featuredItemCellHeightPercentage
     lazy var featuredItemsFlowLayout = FlowLayout()
         .item(width: self.view.frame.width, height: featuredItemsCollectionViewCellHeight)
@@ -139,7 +137,7 @@ class HomeViewController: SViewController {
             
 //            categoriesCollectionView.height(categoriesCollectionViewHeight),
             Spacer()
-        ).scrolls().hidesScrollIndicator().layout(in: view, withSafeArea: true)
+        ).scrolls().hidesScrollIndicator().layout(in: view, withSafeArea: false)
         
     }
     
@@ -204,6 +202,14 @@ class HomeViewController: SViewController {
                 Alert.showError(message: err.localizedDescription)
             }
         }
+        
+//        SparkBuckets.items.value = [
+//            Item(uid: "", categoryUid: "", name: "Item", headerImageUrl: "cat0", isFeatured: true),
+//            Item(uid: "", categoryUid: "", name: "Item", headerImageUrl: "cat0", isFeatured: true),
+//            Item(uid: "", categoryUid: "", name: "Item", headerImageUrl: "cat0", isFeatured: true),
+//            Item(uid: "", categoryUid: "", name: "Item", headerImageUrl: "cat0", isFeatured: true),
+//            Item(uid: "", categoryUid: "", name: "Item", headerImageUrl: "cat0", isFeatured: true)
+//        ]
     }
     
     // MARK: - public

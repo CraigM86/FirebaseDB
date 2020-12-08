@@ -23,26 +23,26 @@ class HomeAccessoriesCell: CollectionCell<Item>, SelfConfiguringCell {
         .text(color: .systemBlack)
         .textAlignment(.left)
         .regular(21)
-        .width(self.frame.width - self.frame.height - 12)
     
     lazy var subtitleLabel = UILabel()
         .text(color: .systemGray3)
         .textAlignment(.left)
         .regular(16)
-        .width(self.frame.width - self.frame.height - 12)
     
     override func layoutViews() {
         super.layoutViews()
-        
-        HStack(
-            imageView,
-            VStack(
-                titleLabel,
-                subtitleLabel,
-                HLine(insets: .zero)
-            ),
-            Spacer()
-        ).spacing(12).layout(in: container)
+        VStack(
+            HStack(
+                imageView,
+                VStack(
+                    titleLabel,
+                    subtitleLabel
+                ),
+                Spacer()
+            ).spacing(12).padding(by: 6),
+            Spacer(),
+            HLine(insets: UIEdgeInsets(top: 0, left: self.frame.height + 6, bottom: 0, right: 12))
+        ).layout(in: container, withSafeArea: false)
         
     }
     

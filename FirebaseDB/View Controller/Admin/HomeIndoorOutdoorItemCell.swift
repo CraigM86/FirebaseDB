@@ -23,13 +23,11 @@ class HomeIndoorOutdoorItemCell: CollectionCell<Item>, SelfConfiguringCell {
         .text(color: .systemBlack)
         .textAlignment(.left)
         .regular(21)
-        .width(self.frame.width - 24)
     
     lazy var subtitleLabel = UILabel()
         .text(color: .systemGray3)
         .textAlignment(.left)
         .regular(21)
-        .width(self.frame.width - 24)
     
     override func layoutViews() {
         super.layoutViews()
@@ -39,7 +37,7 @@ class HomeIndoorOutdoorItemCell: CollectionCell<Item>, SelfConfiguringCell {
             titleLabel,
             subtitleLabel,
             Spacer()
-        ).spacing(6).padding(by: 12).layout(in: container)
+        ).spacing(6).padding(by: 12).layout(in: container, withSafeArea: false)
         
     }
     
