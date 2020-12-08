@@ -16,4 +16,6 @@ struct SparkBuckets {
     
     static let categories = Bucket([Category]())
     static let items = Bucket([Item]())
+    
+    static let featuredItems = Bucket([Item]())
 }

@@ -232,6 +232,39 @@ struct SparkFirestore {
         }
     }
     
+    static func retreiveFeaturedItems(completion: @escaping (Result<[Item], Error>) -> ()) {
+        let query = SparkFirestoreQueryManager.queryForFeaturedItems()
+        query.getDocuments { (querySnapshot, err) in
+            if let err = err {
+                completion(.failure(err))
+                return
+            }
+            guard let querySnapshot = querySnapshot else {
+                completion(.failure(SparkFirestoreError.noQuerySnapshot))
+                return
+            }
+            let documents = querySnapshot.documents
+            
+            var objects = [Item]()
+            for document in documents {
+                let result = Result {
+                    try document.data(as: Item.self)
+                }
+                switch result {
+                case .success(let object):
+                    if let object = object {
+                        objects.append(object)
+                    } else {
+                        print("documentDoesNotExist")
+                    }
+                case .failure(let err):
+                    print(err.localizedDescription)
+                }
+            }
+            completion(.success(objects))
+        }
+    }
+    
     static func updateItem(_ item: Item, completion: @escaping (Result<Bool, Error>) -> ()) {
         
         let reference = SparkFirestoreReferenceManager.referenceForItem(with: item.uid)

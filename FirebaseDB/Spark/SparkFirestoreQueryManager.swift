@@ -27,4 +27,10 @@ struct SparkFirestoreQueryManager {
             .collection(SparkKey.CollectionPath.items)
             .whereField(Key.Item.categoryUid, isEqualTo: categoryUid)
     }
+    
+    static func queryForFeaturedItems() -> Query {
+        return SparkFirebaseRootReference.firestore
+            .collection(SparkKey.CollectionPath.items)
+            .whereField(Key.Item.isFeatured, isEqualTo: true)
+    }
 }

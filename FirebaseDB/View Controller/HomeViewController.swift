@@ -84,7 +84,9 @@ class HomeViewController: SViewController {
     
     override func onAppear() {
         super.onAppear()
-        fetch()
+        SDispatchQueue.delay(bySeconds: 3) {
+            self.fetch()
+        }
     }
     
     override func preLoad() {
@@ -169,7 +171,7 @@ class HomeViewController: SViewController {
     override func subscribe() {
         super.subscribe()
         
-        SparkBuckets.items.subscribe(with: self) { (categories) in
+        SparkBuckets.featuredItems.subscribe(with: self) { (categories) in
             self.featuredItemsCollectionView.reloadData()
         }
         
@@ -193,21 +195,15 @@ class HomeViewController: SViewController {
     // MARK: - fileprivate
     
     fileprivate func fetch() {
-        SparkBuckets.items.value = [
-            Item(uid: "", categoryUid: "", name: SLoremIpsum.extraShort, headerImageUrl: "cat0"),
-            Item(uid: "", categoryUid: "", name: "Hello1", headerImageUrl: "cat1"),
-            Item(uid: "", categoryUid: "", name: "Hello2", headerImageUrl: "cat2"),
-            Item(uid: "", categoryUid: "", name: "Hello3", headerImageUrl: "cat3"),
-            Item(uid: "", categoryUid: "", name: "Hello4", headerImageUrl: "cat4")
-        ]
-        
-        SparkBuckets.categories.value = [
-            Category(uid: "", name: SLoremIpsum.short, headerImageUrl: "cat0"),
-            Category(uid: "", name: SLoremIpsum.extraShort, headerImageUrl: "cat1"),
-            Category(uid: "", name: "Cat2", headerImageUrl: "cat2"),
-            Category(uid: "", name: "Cat3", headerImageUrl: "cat3"),
-            Category(uid: "", name: "Cat4", headerImageUrl: "cat4")
-        ]
+        SparkFirestore.retreiveFeaturedItems { (result) in
+            switch result {
+            case .success(let items):
+                print("Fetched featured items: \(items)")
+                SparkBuckets.featuredItems.value = items
+            case .failure(let err):
+                Alert.showError(message: err.localizedDescription)
+            }
+        }
     }
     
     // MARK: - public
@@ -234,7 +230,7 @@ extension HomeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView.tag == 0 {
-            return SparkBuckets.items.value.count
+            return SparkBuckets.featuredItems.value.count
         } else if collectionView.tag == 1 {
             return SparkBuckets.items.value.count
         } else if collectionView.tag == 2 {
@@ -247,7 +243,7 @@ extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView.tag == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeaturedItemCell.reuseIdentifier, for: indexPath) as! FeaturedItemCell
-            let item = SparkBuckets.items.value[indexPath.row]
+            let item = SparkBuckets.featuredItems.value[indexPath.row]
             cell.setup(with: item, at: indexPath)
             return cell
         } else if collectionView.tag == 1 {
