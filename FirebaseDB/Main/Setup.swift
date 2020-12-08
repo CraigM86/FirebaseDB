@@ -14,4 +14,6 @@ struct Setup {
     static let itemHeaderImageCompressionQuality: CGFloat = 0.2
     static let featuredItemCellHeightPercentage: CGFloat = 1.2
     static let homeCategoriesCellHeight: CGFloat = 100
+    static let homeIndoorOutdoorItemCellSize = CGSize(width: 200, height: 270)
+    static let homeAccessoriesCellHeight: CGFloat = 62
 }

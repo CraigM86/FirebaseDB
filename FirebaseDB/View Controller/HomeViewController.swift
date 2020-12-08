@@ -36,6 +36,41 @@ class HomeViewController: SViewController {
         .enablePaging()
         .hidesHorizontalScrollIndicator()
     
+    let indoorTitleLabel = UILabel().text("Indoor Items").bold(28)
+    let indoorSeeAllLabel = UILabel().text("See All").text(color: .systemRed).regular(18)
+    
+    lazy var indoorItemsFlowLayout = FlowLayout()
+        .itemSize(Setup.homeIndoorOutdoorItemCellSize)
+        .scrollDirection(.horizontal)
+    lazy var indoorItemsCollectionView = CollectionView(with: indoorItemsFlowLayout, delegateAndDataSource: self)
+        .registerCell(HomeIndoorOutdoorItemCell.self, forCellWithReuseIdentifier: HomeIndoorOutdoorItemCell.reuseIdentifier)
+        .hidesHorizontalScrollIndicator()
+    
+    let outdoorTitleLabel = UILabel().text("Outdoor Items").bold(28)
+    let outdoorSeeAllLabel = UILabel().text("See All").text(color: .systemRed).regular(18)
+    
+    lazy var outdoorItemsFlowLayout = FlowLayout()
+        .itemSize(Setup.homeIndoorOutdoorItemCellSize)
+        .scrollDirection(.horizontal)
+    lazy var outdoorItemsCollectionView = CollectionView(with: outdoorItemsFlowLayout, delegateAndDataSource: self)
+        .registerCell(HomeIndoorOutdoorItemCell.self, forCellWithReuseIdentifier: HomeIndoorOutdoorItemCell.reuseIdentifier)
+        .hidesHorizontalScrollIndicator()
+    
+    let accessoriesTitleLabel = UILabel().text("Accessories").bold(28)
+    let accessoriesSeeAllLabel = UILabel().text("See All").text(color: .systemRed).regular(18)
+    
+    lazy var accessoriesCollectionViewHeight = Setup.homeAccessoriesCellHeight * 5
+    lazy var accessoriesFlowLayout = FlowLayout()
+        .item(width: self.view.frame.width - 24, height: Setup.homeAccessoriesCellHeight)
+        .scrollDirection(.vertical)
+    lazy var accessoriesCollectionView = CollectionView(with: accessoriesFlowLayout, delegateAndDataSource: self)
+        .registerCell(HomeAccessoriesCell.self, forCellWithReuseIdentifier: HomeAccessoriesCell.reuseIdentifier)
+    
+    
+    
+    
+    
+    
     lazy var categoriesCollectionViewHeight = Setup.homeCategoriesCellHeight * 5
     lazy var categoriesFlowLayout = FlowLayout()
         .item(width: self.view.frame.width, height: Setup.homeCategoriesCellHeight)
@@ -73,7 +108,34 @@ class HomeViewController: SViewController {
         
         VStack(
             featuredItemsCollectionView.height(featuredItemsCollectionViewCellHeight),
-            categoriesCollectionView.height(categoriesCollectionViewHeight),
+            
+            HLine(),
+            HStack(
+                indoorTitleLabel,
+                Spacer(),
+                indoorSeeAllLabel
+            ).padding(.horizontal, 24).padding(.top),
+            indoorItemsCollectionView.height(Setup.homeIndoorOutdoorItemCellSize.height),
+            
+            HLine(),
+            HStack(
+                outdoorTitleLabel,
+                Spacer(),
+                outdoorSeeAllLabel
+            ).padding(.horizontal, 24).padding(.top),
+            outdoorItemsCollectionView.height(Setup.homeIndoorOutdoorItemCellSize.height),
+            
+            HLine(),
+            HStack(
+                accessoriesTitleLabel,
+                Spacer(),
+                accessoriesSeeAllLabel
+            ).padding(.horizontal, 24).padding(.top),
+            VStack(
+                accessoriesCollectionView.height(accessoriesCollectionViewHeight)
+            ).padding(by: 12),
+            
+//            categoriesCollectionView.height(categoriesCollectionViewHeight),
             Spacer()
         ).scrolls().hidesScrollIndicator().layout(in: view, withSafeArea: true)
         
@@ -83,11 +145,25 @@ class HomeViewController: SViewController {
         super.configureViews()
         
         featuredItemsCollectionView.tag = 0
-        categoriesCollectionView.tag = 1
+        indoorItemsCollectionView.tag = 1
+        outdoorItemsCollectionView.tag = 2
+        accessoriesCollectionView.tag = 3
     }
     
     override func addActions() {
         super.addActions()
+        
+        indoorSeeAllLabel.addAction {
+            print("Tapped indoorSeeAllLabel")
+        }
+        
+        outdoorSeeAllLabel.addAction {
+            print("Tapped outdoorSeeAllLabel")
+        }
+        
+        accessoriesSeeAllLabel.addAction {
+            print("Tapped accessoriesSeeAllLabel")
+        }
     }
     
     override func subscribe() {
@@ -120,7 +196,9 @@ class HomeViewController: SViewController {
         SparkBuckets.items.value = [
             Item(uid: "", categoryUid: "", name: SLoremIpsum.extraShort, headerImageUrl: "cat0"),
             Item(uid: "", categoryUid: "", name: "Hello1", headerImageUrl: "cat1"),
-            Item(uid: "", categoryUid: "", name: "Hello2", headerImageUrl: "cat2")
+            Item(uid: "", categoryUid: "", name: "Hello2", headerImageUrl: "cat2"),
+            Item(uid: "", categoryUid: "", name: "Hello3", headerImageUrl: "cat3"),
+            Item(uid: "", categoryUid: "", name: "Hello4", headerImageUrl: "cat4")
         ]
         
         SparkBuckets.categories.value = [
@@ -157,8 +235,12 @@ extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView.tag == 0 {
             return SparkBuckets.items.value.count
+        } else if collectionView.tag == 1 {
+            return SparkBuckets.items.value.count
+        } else if collectionView.tag == 2 {
+            return SparkBuckets.items.value.count
         } else {
-            return SparkBuckets.categories.value.count
+            return SparkBuckets.items.value.count
         }
     }
     
@@ -168,9 +250,19 @@ extension HomeViewController: UICollectionViewDataSource {
             let item = SparkBuckets.items.value[indexPath.row]
             cell.setup(with: item, at: indexPath)
             return cell
+        } else if collectionView.tag == 1 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeIndoorOutdoorItemCell.reuseIdentifier, for: indexPath) as! HomeIndoorOutdoorItemCell
+            let item = SparkBuckets.items.value[indexPath.row]
+            cell.setup(with: item, at: indexPath)
+            return cell
+        } else if collectionView.tag == 2 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeIndoorOutdoorItemCell.reuseIdentifier, for: indexPath) as! HomeIndoorOutdoorItemCell
+            let item = SparkBuckets.items.value[indexPath.row]
+            cell.setup(with: item, at: indexPath)
+            return cell
         } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCategoryCell.reuseIdentifier, for: indexPath) as! HomeCategoryCell
-            let item = SparkBuckets.categories.value[indexPath.row]
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeAccessoriesCell.reuseIdentifier, for: indexPath) as! HomeAccessoriesCell
+            let item = SparkBuckets.items.value[indexPath.row]
             cell.setup(with: item, at: indexPath)
             return cell
         }

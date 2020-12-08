@@ -43,6 +43,8 @@
 		C9C927CA257790CC00A3866E /* Stax in Frameworks */ = {isa = PBXBuildFile; productRef = C9C927C9257790CC00A3866E /* Stax */; };
 		C9E50847257F947F00CB6AA6 /* FeaturedItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E50846257F947F00CB6AA6 /* FeaturedItemCell.swift */; };
 		C9E5084A257F9F5A00CB6AA6 /* HomeCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E50849257F9F5A00CB6AA6 /* HomeCategoryCell.swift */; };
+		C9E5084D257FA6E700CB6AA6 /* HomeIndoorOutdoorItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E5084C257FA6E700CB6AA6 /* HomeIndoorOutdoorItemCell.swift */; };
+		C9E50850257FAE0600CB6AA6 /* HomeAccessoriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E5084F257FAE0600CB6AA6 /* HomeAccessoriesCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +86,8 @@
 		C98DDF5E25711DC00098DD22 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		C9E50846257F947F00CB6AA6 /* FeaturedItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedItemCell.swift; sourceTree = "<group>"; };
 		C9E50849257F9F5A00CB6AA6 /* HomeCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCategoryCell.swift; sourceTree = "<group>"; };
+		C9E5084C257FA6E700CB6AA6 /* HomeIndoorOutdoorItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeIndoorOutdoorItemCell.swift; sourceTree = "<group>"; };
+		C9E5084F257FAE0600CB6AA6 /* HomeAccessoriesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAccessoriesCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,6 +232,8 @@
 				C95FCBB42577994700348D90 /* AdminCell.swift */,
 				C96122662577AEE300F39EAC /* ItemCell.swift */,
 				C9E50846257F947F00CB6AA6 /* FeaturedItemCell.swift */,
+				C9E5084C257FA6E700CB6AA6 /* HomeIndoorOutdoorItemCell.swift */,
+				C9E5084F257FAE0600CB6AA6 /* HomeAccessoriesCell.swift */,
 				C9E50849257F9F5A00CB6AA6 /* HomeCategoryCell.swift */,
 			);
 			path = Admin;
@@ -360,6 +366,7 @@
 				C98DDF4E257112B40098DD22 /* SparkFirestoreQueryManager.swift in Sources */,
 				C926507B256D1BD4002D4CB0 /* SparkError.swift in Sources */,
 				C96122672577AEE300F39EAC /* ItemCell.swift in Sources */,
+				C9E50850257FAE0600CB6AA6 /* HomeAccessoriesCell.swift in Sources */,
 				04589967256514270038A4AC /* HomeViewController.swift in Sources */,
 				C98DDF4B257111CA0098DD22 /* Admin.swift in Sources */,
 				C95FCBB52577994700348D90 /* AdminCell.swift in Sources */,
@@ -372,6 +379,7 @@
 				C9265069256D1693002D4CB0 /* TabBarController.swift in Sources */,
 				C98DDF5F25711DC00098DD22 /* Item.swift in Sources */,
 				C907206325710B1C00F1C23A /* SparkStorage.swift in Sources */,
+				C9E5084D257FA6E700CB6AA6 /* HomeIndoorOutdoorItemCell.swift in Sources */,
 				C926506F256D1949002D4CB0 /* Profile.swift in Sources */,
 				C926506C256D18E1002D4CB0 /* SparkFirestore.swift in Sources */,
 				C926504D256D1530002D4CB0 /* SparkAuth.swift in Sources */,
