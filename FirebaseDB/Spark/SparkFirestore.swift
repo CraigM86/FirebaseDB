@@ -16,15 +16,7 @@ struct SparkFirestore {
     
     static func retreiveProfile(uid: String, completion: @escaping (Result<Profile, Error>) -> ()) {
         let reference = SparkFirestoreReferenceManager.referenceForProfile(with: uid)
-        getDocument(for: reference) { (result) in
-            switch result {
-            case .success(let data):
-                let profile = Profile(with: data)
-                completion(.success(profile))
-            case .failure(let err):
-                completion(.failure(err))
-            }
-        }
+        SparkFirestoreHelper<Profile>.getCodable(for: reference, completion: completion)
     }
     
     static func createProfile(_ profile: Profile, completion: @escaping (Result<Bool, Error>) -> ()) {
@@ -73,7 +65,7 @@ struct SparkFirestore {
     
     static func retreiveAdmins(completion: @escaping (Result<[Admin], Error>) -> ()) {
         let query = SparkFirestoreQueryManager.queryForAdmins()
-        getDocuments(query: query, completion: completion)
+        SparkFirestoreHelper<Admin>.getCodables(for: query, completion: completion)
     }
     
     // MARK: - Category
@@ -97,20 +89,12 @@ struct SparkFirestore {
     
     static func retreiveCategory(uid: String, completion: @escaping (Result<Category, Error>) -> ()) {
         let reference = SparkFirestoreReferenceManager.referenceForCategory(with: uid)
-        getDocument(for: reference) { (result) in
-            switch result {
-            case .success(let data):
-                let category = Category(with: data)
-                completion(.success(category))
-            case .failure(let err):
-                completion(.failure(err))
-            }
-        }
+        SparkFirestoreHelper<Category>.getCodable(for: reference, completion: completion)
     }
     
     static func retreiveCategories(completion: @escaping (Result<[Category], Error>) -> ()) {
         let query = SparkFirestoreQueryManager.queryForCategories()
-        getDocuments(query: query, completion: completion)
+        SparkFirestoreHelper<Category>.getCodables(for: query, completion: completion)
     }
     
     static func updateCategory(_ category: Category, completion: @escaping (Result<Bool, Error>) -> ()) {
@@ -158,22 +142,22 @@ struct SparkFirestore {
     
     static func retreiveItems(categoryUid: String, completion: @escaping (Result<[Item], Error>) -> ()) {
         let query = SparkFirestoreQueryManager.queryForItems(categoryUid: categoryUid)
-        getDocuments(query: query, completion: completion)
+        SparkFirestoreHelper<Item>.getCodables(for: query, completion: completion)
     }
     
     static func retreiveFeaturedItems(completion: @escaping (Result<[Item], Error>) -> ()) {
         let query = SparkFirestoreQueryManager.queryForFeaturedItems()
-        getDocuments(query: query, completion: completion)
+        SparkFirestoreHelper<Item>.getCodables(for: query, completion: completion)
     }
     
     static func retreiveItems(ofItemSpace itemSpace: ItemSpace, completion: @escaping (Result<[Item], Error>) -> ()) {
         let query = SparkFirestoreQueryManager.queryForItems(ofItemSpace: itemSpace.rawValue)
-        getDocuments(query: query, completion: completion)
+        SparkFirestoreHelper<Item>.getCodables(for: query, completion: completion)
     }
     
     static func retreiveItems(ofType itemType: ItemType, completion: @escaping (Result<[Item], Error>) -> ()) {
         let query = SparkFirestoreQueryManager.queryForItems(ofType: itemType.rawValue)
-        getDocuments(query: query, completion: completion)
+        SparkFirestoreHelper<Item>.getCodables(for: query, completion: completion)
     }
     
     static func updateItem(_ item: Item, completion: @escaping (Result<Bool, Error>) -> ()) {
@@ -200,9 +184,11 @@ struct SparkFirestore {
         }
     }
     
-    // MARK: - fileprivate Firestore functions
+}
+
+struct SparkFirestoreHelper<T: Codable> {
     
-    static fileprivate func getDocument(for reference: DocumentReference, completion: @escaping (Result<[String : Any], Error>) -> ()) {
+    static func getCodable(for reference: DocumentReference, completion: @escaping (Result<T, Error>) -> ()) {
         reference.getDocument { (documentSnapshot, err) in
             if let err = err {
                 completion(.failure(err))
@@ -216,15 +202,25 @@ struct SparkFirestore {
                 completion(.failure(SparkFirestoreError.documentDoesNotExist))
                 return
             }
-            guard let data = documentSnapshot.data() else {
-                completion(.failure(SparkFirestoreError.noSnapshotData))
-                return
+            
+            let result = Result {
+                try documentSnapshot.data(as: T.self)
             }
-            completion(.success(data))
+            switch result {
+            case .success(let object):
+                if let object = object {
+                    completion(.success(object))
+                } else {
+                    print("documentDoesNotExist")
+                    completion(.failure(SparkFirestoreError.documentDoesNotExist))
+                }
+            case .failure(let err):
+                completion(.failure(err))
+            }
         }
     }
     
-    static fileprivate func getDocuments<T: Codable>(query: Query, completion: @escaping (Result<[T], Error>) -> ()) {
+    static func getCodables(for query: Query, completion: @escaping (Result<[T], Error>) -> ()) {
         query.getDocuments { (querySnapshot, err) in
             if let err = err {
                 completion(.failure(err))
