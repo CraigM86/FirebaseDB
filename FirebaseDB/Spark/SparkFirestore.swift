@@ -73,35 +73,7 @@ struct SparkFirestore {
     
     static func retreiveAdmins(completion: @escaping (Result<[Admin], Error>) -> ()) {
         let query = SparkFirestoreQueryManager.queryForAdmins()
-        query.getDocuments { (querySnapshot, err) in
-            if let err = err {
-                completion(.failure(err))
-                return
-            }
-            guard let querySnapshot = querySnapshot else {
-                completion(.failure(SparkFirestoreError.noQuerySnapshot))
-                return
-            }
-            let documents = querySnapshot.documents
-            
-            var objects = [Admin]()
-            for document in documents {
-                let result = Result {
-                    try document.data(as: Admin.self)
-                }
-                switch result {
-                case .success(let object):
-                    if let object = object {
-                        objects.append(object)
-                    } else {
-                        print("documentDoesNotExist")
-                    }
-                case .failure(let err):
-                    print(err.localizedDescription)
-                }
-            }
-            completion(.success(objects))
-        }
+        getDocuments(query: query, completion: completion)
     }
     
     // MARK: - Category
@@ -123,37 +95,22 @@ struct SparkFirestore {
         }
     }
     
+    static func retreiveCategory(uid: String, completion: @escaping (Result<Category, Error>) -> ()) {
+        let reference = SparkFirestoreReferenceManager.referenceForCategory(with: uid)
+        getDocument(for: reference) { (result) in
+            switch result {
+            case .success(let data):
+                let category = Category(with: data)
+                completion(.success(category))
+            case .failure(let err):
+                completion(.failure(err))
+            }
+        }
+    }
+    
     static func retreiveCategories(completion: @escaping (Result<[Category], Error>) -> ()) {
         let query = SparkFirestoreQueryManager.queryForCategories()
-        query.getDocuments { (querySnapshot, err) in
-            if let err = err {
-                completion(.failure(err))
-                return
-            }
-            guard let querySnapshot = querySnapshot else {
-                completion(.failure(SparkFirestoreError.noQuerySnapshot))
-                return
-            }
-            let documents = querySnapshot.documents
-            
-            var objects = [Category]()
-            for document in documents {
-                let result = Result {
-                    try document.data(as: Category.self)
-                }
-                switch result {
-                case .success(let object):
-                    if let object = object {
-                        objects.append(object)
-                    } else {
-                        print("documentDoesNotExist")
-                    }
-                case .failure(let err):
-                    print(err.localizedDescription)
-                }
-            }
-            completion(.success(objects))
-        }
+        getDocuments(query: query, completion: completion)
     }
     
     static func updateCategory(_ category: Category, completion: @escaping (Result<Bool, Error>) -> ()) {
@@ -201,68 +158,22 @@ struct SparkFirestore {
     
     static func retreiveItems(categoryUid: String, completion: @escaping (Result<[Item], Error>) -> ()) {
         let query = SparkFirestoreQueryManager.queryForItems(categoryUid: categoryUid)
-        query.getDocuments { (querySnapshot, err) in
-            if let err = err {
-                completion(.failure(err))
-                return
-            }
-            guard let querySnapshot = querySnapshot else {
-                completion(.failure(SparkFirestoreError.noQuerySnapshot))
-                return
-            }
-            let documents = querySnapshot.documents
-            
-            var objects = [Item]()
-            for document in documents {
-                let result = Result {
-                    try document.data(as: Item.self)
-                }
-                switch result {
-                case .success(let object):
-                    if let object = object {
-                        objects.append(object)
-                    } else {
-                        print("documentDoesNotExist")
-                    }
-                case .failure(let err):
-                    print(err.localizedDescription)
-                }
-            }
-            completion(.success(objects))
-        }
+        getDocuments(query: query, completion: completion)
     }
     
     static func retreiveFeaturedItems(completion: @escaping (Result<[Item], Error>) -> ()) {
         let query = SparkFirestoreQueryManager.queryForFeaturedItems()
-        query.getDocuments { (querySnapshot, err) in
-            if let err = err {
-                completion(.failure(err))
-                return
-            }
-            guard let querySnapshot = querySnapshot else {
-                completion(.failure(SparkFirestoreError.noQuerySnapshot))
-                return
-            }
-            let documents = querySnapshot.documents
-            
-            var objects = [Item]()
-            for document in documents {
-                let result = Result {
-                    try document.data(as: Item.self)
-                }
-                switch result {
-                case .success(let object):
-                    if let object = object {
-                        objects.append(object)
-                    } else {
-                        print("documentDoesNotExist")
-                    }
-                case .failure(let err):
-                    print(err.localizedDescription)
-                }
-            }
-            completion(.success(objects))
-        }
+        getDocuments(query: query, completion: completion)
+    }
+    
+    static func retreiveItems(ofItemSpace itemSpace: ItemSpace, completion: @escaping (Result<[Item], Error>) -> ()) {
+        let query = SparkFirestoreQueryManager.queryForItems(ofItemSpace: itemSpace.rawValue)
+        getDocuments(query: query, completion: completion)
+    }
+    
+    static func retreiveItems(ofType itemType: ItemType, completion: @escaping (Result<[Item], Error>) -> ()) {
+        let query = SparkFirestoreQueryManager.queryForItems(ofType: itemType.rawValue)
+        getDocuments(query: query, completion: completion)
     }
     
     static func updateItem(_ item: Item, completion: @escaping (Result<Bool, Error>) -> ()) {
@@ -310,6 +221,38 @@ struct SparkFirestore {
                 return
             }
             completion(.success(data))
+        }
+    }
+    
+    static fileprivate func getDocuments<T: Codable>(query: Query, completion: @escaping (Result<[T], Error>) -> ()) {
+        query.getDocuments { (querySnapshot, err) in
+            if let err = err {
+                completion(.failure(err))
+                return
+            }
+            guard let querySnapshot = querySnapshot else {
+                completion(.failure(SparkFirestoreError.noQuerySnapshot))
+                return
+            }
+            let documents = querySnapshot.documents
+            
+            var objects = [T]()
+            for document in documents {
+                let result = Result {
+                    try document.data(as: T.self)
+                }
+                switch result {
+                case .success(let object):
+                    if let object = object {
+                        objects.append(object)
+                    } else {
+                        print("documentDoesNotExist")
+                    }
+                case .failure(let err):
+                    print(err.localizedDescription)
+                }
+            }
+            completion(.success(objects))
         }
     }
 }

@@ -82,7 +82,7 @@ class HomeViewController: SViewController {
     
     override func onAppear() {
         super.onAppear()
-        SDispatchQueue.delay(bySeconds: 3) {
+        if SparkBuckets.currentUserAuthState.value == .signedIn {
             self.fetch()
         }
     }
@@ -169,8 +169,26 @@ class HomeViewController: SViewController {
     override func subscribe() {
         super.subscribe()
         
-        SparkBuckets.featuredItems.subscribe(with: self) { (categories) in
+        SparkBuckets.currentUserAuthState.subscribe(with: self) { (authState) in
+            if authState == .signedIn {
+                self.fetch()
+            }
+        }
+        
+        SparkBuckets.featuredItems.subscribe(with: self) { (items) in
             self.featuredItemsCollectionView.reloadData()
+        }
+        
+        SparkBuckets.indoorItems.subscribe(with: self) { (items) in
+            self.indoorItemsCollectionView.reloadData()
+        }
+        
+        SparkBuckets.outdoorItems.subscribe(with: self) { (items) in
+            self.outdoorItemsCollectionView.reloadData()
+        }
+        
+        SparkBuckets.accessoryItems.subscribe(with: self) { (items) in
+            self.accessoriesCollectionView.reloadData()
         }
         
         SparkBuckets.categories.subscribe(with: self) { (categories) in
@@ -193,15 +211,48 @@ class HomeViewController: SViewController {
     // MARK: - fileprivate
     
     fileprivate func fetch() {
+        print("Started fetching...")
         SparkFirestore.retreiveFeaturedItems { (result) in
             switch result {
             case .success(let items):
-                print("Fetched featured items: \(items)")
+                print("Fetched featured items: \(items.count)")
                 SparkBuckets.featuredItems.value = items
             case .failure(let err):
                 Alert.showError(message: err.localizedDescription)
             }
         }
+        
+        SparkFirestore.retreiveItems(ofItemSpace: ItemSpace.indoor) { (result) in
+            switch result {
+            case .success(let items):
+                print("Fetched items of space type \(ItemSpace.indoor.rawValue): \(items.count)")
+                SparkBuckets.indoorItems.value = items
+            case .failure(let err):
+                Alert.showError(message: err.localizedDescription)
+            }
+        }
+        
+        SparkFirestore.retreiveItems(ofItemSpace: ItemSpace.outdoor) { (result) in
+            switch result {
+            case .success(let items):
+                print("Fetched items of space type \(ItemSpace.outdoor.rawValue): \(items.count)")
+                SparkBuckets.indoorItems.value = items
+            case .failure(let err):
+                Alert.showError(message: err.localizedDescription)
+            }
+        }
+        
+        SparkFirestore.retreiveItems(ofType: ItemType.accessory) { (result) in
+            switch result {
+            case .success(let items):
+                print("Fetched items of type \(ItemType.accessory.rawValue): \(items.count)")
+                SparkBuckets.accessoryItems.value = items
+            case .failure(let err):
+                Alert.showError(message: err.localizedDescription)
+            }
+        }
+        
+        
         
 //        SparkBuckets.items.value = [
 //            Item(uid: "", categoryUid: "", name: "Item", headerImageUrl: "cat0", isFeatured: true),
@@ -238,11 +289,11 @@ extension HomeViewController: UICollectionViewDataSource {
         if collectionView.tag == 0 {
             return SparkBuckets.featuredItems.value.count
         } else if collectionView.tag == 1 {
-            return SparkBuckets.items.value.count
+            return SparkBuckets.indoorItems.value.count
         } else if collectionView.tag == 2 {
-            return SparkBuckets.items.value.count
+            return SparkBuckets.outdoorItems.value.count
         } else {
-            return SparkBuckets.items.value.count
+            return SparkBuckets.accessoryItems.value.count
         }
     }
     
@@ -254,17 +305,17 @@ extension HomeViewController: UICollectionViewDataSource {
             return cell
         } else if collectionView.tag == 1 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeIndoorOutdoorItemCell.reuseIdentifier, for: indexPath) as! HomeIndoorOutdoorItemCell
-            let item = SparkBuckets.items.value[indexPath.row]
+            let item = SparkBuckets.indoorItems.value[indexPath.row]
             cell.setup(with: item, at: indexPath)
             return cell
         } else if collectionView.tag == 2 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeIndoorOutdoorItemCell.reuseIdentifier, for: indexPath) as! HomeIndoorOutdoorItemCell
-            let item = SparkBuckets.items.value[indexPath.row]
+            let item = SparkBuckets.outdoorItems.value[indexPath.row]
             cell.setup(with: item, at: indexPath)
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeAccessoriesCell.reuseIdentifier, for: indexPath) as! HomeAccessoriesCell
-            let item = SparkBuckets.items.value[indexPath.row]
+            let item = SparkBuckets.accessoryItems.value[indexPath.row]
             cell.setup(with: item, at: indexPath)
             return cell
         }
@@ -272,12 +323,32 @@ extension HomeViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = SparkBuckets.items.value[indexPath.row]
         
-//        let controller = ItemViewController()
-//        controller.item = item
-//        controller.category = category
-//        self.navigationController?.pushViewController(controller, animated: true)
+        var item = Item()
+        
+        if collectionView.tag == 0 {
+            item = SparkBuckets.featuredItems.value[indexPath.row]
+        } else if collectionView.tag == 1 {
+            item = SparkBuckets.indoorItems.value[indexPath.row]
+        } else if collectionView.tag == 2 {
+            item = SparkBuckets.outdoorItems.value[indexPath.row]
+        } else {
+            item = SparkBuckets.accessoryItems.value[indexPath.row]
+        }
+        
+        Hud.large.showWorking(message: "Fetching item...")
+        SparkFirestore.retreiveCategory(uid: item.categoryUid) { (result) in
+            Hud.large.hide()
+            switch result {
+            case .success(let category):
+                let controller = ItemViewController()
+                controller.item = item
+                controller.category = category
+                self.navigationController?.pushViewController(controller, animated: true)
+            case .failure(let err):
+                Alert.showError(message: err.localizedDescription)
+            }
+        }
     }
     
 }

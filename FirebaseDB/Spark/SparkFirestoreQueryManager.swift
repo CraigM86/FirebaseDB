@@ -33,4 +33,16 @@ struct SparkFirestoreQueryManager {
             .collection(SparkKey.CollectionPath.items)
             .whereField(Key.Item.isFeatured, isEqualTo: true)
     }
+    
+    static func queryForItems(ofItemSpace itemSpace: String) -> Query {
+        return SparkFirebaseRootReference.firestore
+            .collection(SparkKey.CollectionPath.items)
+            .whereField(Key.Item.itemSpace, isEqualTo: itemSpace)
+    }
+    
+    static func queryForItems(ofType itemType: String) -> Query {
+        return SparkFirebaseRootReference.firestore
+            .collection(SparkKey.CollectionPath.items)
+            .whereField(Key.Item.itemType, isEqualTo: itemType)
+    }
 }
