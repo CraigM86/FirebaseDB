@@ -12,6 +12,7 @@ import BetterCodable
 enum ItemType: String {
     case undefined = ""
     case accessory = "accessory"
+    case onSale = "onSale"
 }
 
 enum ItemSpace: String {
@@ -27,7 +28,9 @@ struct Item: Codable {
     @DefaultEmptyString var uid: String
     @DefaultEmptyString var categoryUid: String
     @DefaultEmptyString var name: String
+    @DefaultEmptyString var description: String
     @DefaultEmptyString var headerImageUrl: String
+    @DefaultEmptyString var purchaseUrl: String
     @DefaultFalse var isFeatured: Bool
     @DefaultEmptyString var itemSpace: String
     @DefaultEmptyString var itemType: String
@@ -37,14 +40,18 @@ struct Item: Codable {
     init(uid: String? = nil,
          categoryUid: String? = nil,
          name: String? = nil,
+         description: String? = nil,
          headerImageUrl: String? = nil,
+         purchaseUrl: String? = nil,
          isFeatured: Bool? = nil,
          itemSpace: String? = nil,
          itemType: String? = nil) {
         self.uid = uid ?? String.empty
         self.categoryUid = categoryUid ?? String.empty
         self.name = name ?? String.empty
+        self.description = description ?? String.empty
         self.headerImageUrl = headerImageUrl ?? String.empty
+        self.purchaseUrl = purchaseUrl ?? String.empty
         self.isFeatured = isFeatured ?? false
         self.itemSpace = itemSpace ?? String.empty
         self.itemType = itemType ?? String.empty
@@ -54,7 +61,9 @@ struct Item: Codable {
         uid = dictionary?[Key.Item.uid] as? String ?? String.empty
         categoryUid = dictionary?[Key.Item.categoryUid] as? String ?? String.empty
         name = dictionary?[Key.Item.name] as? String ?? String.empty
+        description = dictionary?[Key.Item.description] as? String ?? String.empty
         headerImageUrl = dictionary?[Key.Item.headerImageUrl] as? String ?? String.empty
+        purchaseUrl = dictionary?[Key.Item.purchaseUrl] as? String ?? String.empty
         isFeatured = dictionary?[Key.Item.isFeatured] as? Bool ?? false
         itemSpace = dictionary?[Key.Item.itemSpace] as? String ?? String.empty
         itemType = dictionary?[Key.Item.itemType] as? String ?? String.empty
@@ -69,7 +78,9 @@ struct Item: Codable {
                 Key.Item.uid: uid,
                 Key.Item.categoryUid: categoryUid,
                 Key.Item.name: name,
+                Key.Item.description: description,
                 Key.Item.headerImageUrl: headerImageUrl,
+                Key.Item.purchaseUrl: purchaseUrl,
                 Key.Item.isFeatured: isFeatured,
                 Key.Item.itemSpace: itemSpace,
                 Key.Item.itemType: itemType
@@ -79,7 +90,9 @@ struct Item: Codable {
                 Key.Item.uid: uid,
                 Key.Item.categoryUid: categoryUid,
                 Key.Item.name: name,
+                Key.Item.description: description,
                 Key.Item.headerImageUrl: headerImageUrl,
+                Key.Item.purchaseUrl: purchaseUrl,
                 Key.Item.isFeatured: isFeatured,
                 Key.Item.itemSpace: itemSpace,
                 Key.Item.itemType: itemType
@@ -103,7 +116,9 @@ extension Key {
         static let uid = "uid"
         static let categoryUid = "categoryUid"
         static let name = "name"
+        static let description = "description"
         static let headerImageUrl = "headerImageUrl"
+        static let purchaseUrl = "purchaseUrl"
         static let isFeatured = "isFeatured"
         static let itemSpace = "itemSpace"
         static let itemType = "itemType"

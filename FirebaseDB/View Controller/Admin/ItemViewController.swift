@@ -22,6 +22,20 @@ class ItemViewController: SImagePickerViewController {
     
     // MARK: - Properties
     
+    var itemTypes = [
+        ItemType.accessory.rawValue,
+        ItemType.onSale.rawValue
+    ]
+    
+    var selectedItemType = ""
+    
+    var itemSpaces = [
+        ItemSpace.indoor.rawValue,
+        ItemSpace.outdoor.rawValue
+    ]
+    
+    var selectedItemSpace = ""
+    
     // MARK: - Buckets
     
     // MARK: - Navigation items
@@ -29,6 +43,11 @@ class ItemViewController: SImagePickerViewController {
     lazy var saveBarButtonItem = UIBarButtonItem(title: "Save", style: .done) {
         guard let image = self.headerImageView.image,
               let name = self.nameTextField.object.text, name != "",
+              let description = self.descriptionTextView.text,
+              let purchaseUrl = self.purchaseUrlTextField.object.text,
+              let isFeatured = self.isFeaturedSwitch.isOn(),
+              self.selectedItemType != "",
+              self.selectedItemSpace != "",
               let category = self.category else {
             return
         }
@@ -39,7 +58,7 @@ class ItemViewController: SImagePickerViewController {
             case .success(let url):
                 Hud.large.update(message: "Updating database...")
                 if self.item == nil {
-                    let item = Item(uid: "", categoryUid: category.uid, name: name, headerImageUrl: url.absoluteString)
+                    let item = Item(uid: "", categoryUid: category.uid, name: name, description: description, headerImageUrl: url.absoluteString, purchaseUrl: purchaseUrl, isFeatured: isFeatured, itemSpace: self.selectedItemSpace, itemType: self.selectedItemType)
                     SparkFirestore.createItem(item) { (result) in
                         Hud.large.hide()
                         switch result {
@@ -54,7 +73,7 @@ class ItemViewController: SImagePickerViewController {
                         }
                     }
                 } else {
-                    var updatedItem = Item(uid: self.item!.uid, categoryUid: category.uid, name: name, headerImageUrl: url.absoluteString)
+                    var updatedItem = Item(uid: self.item!.uid, categoryUid: category.uid, name: name, description: description, headerImageUrl: url.absoluteString, purchaseUrl: purchaseUrl, isFeatured: isFeatured, itemSpace: self.selectedItemSpace, itemType: self.selectedItemType)
                     
                     SparkFirestore.updateItem(updatedItem) { (result) in
                         Hud.large.hide()
@@ -83,6 +102,13 @@ class ItemViewController: SImagePickerViewController {
         .background(color: .systemGray5)
         .square(self.view.frame.size.width)
     let nameTextField = STextField().placeholder("Name")
+    let descriptionTextView = UITextView()
+    let purchaseUrlTextField = STextField().placeholder("Purchase url")
+    let isFeaturedLabel = UILabel().text("Featured").bold()
+    let isFeaturedSwitch = SSwitch(uiSwitch: UISwitch())
+    let itemTypePicker = UIPickerView()
+    let itemSpacePicker = UIPickerView()
+    
     let deleteLabel = UILabel().text("Delete").textAlignment(.center).bold().text(color: .systemRed)
     
     // MARK: - init - deinit
@@ -91,6 +117,14 @@ class ItemViewController: SImagePickerViewController {
     
     override func onAppear() {
         super.onAppear()
+        
+        itemTypePicker.tag = 0
+        itemTypePicker.delegate = self
+        itemTypePicker.dataSource = self
+        
+        itemSpacePicker.tag = 1
+        itemSpacePicker.delegate = self
+        itemSpacePicker.dataSource = self
     }
     
     override func preLoad() {
@@ -99,12 +133,16 @@ class ItemViewController: SImagePickerViewController {
     
     override func setupNavigationBar() {
         super.setupNavigationBar()
-        title = "\(item == nil ? "Add new item" : "Edit item")"
+        if SparkBuckets.isAdmin.value {
+            title = "\(item == nil ? "Add new item" : "Edit item")"
+        }
     }
     
     override func configureNavigationBar() {
         super.configureNavigationBar()
-        self.navigationItem.setRightBarButton(saveBarButtonItem, animated: false)
+        if SparkBuckets.isAdmin.value {
+            self.navigationItem.setRightBarButton(saveBarButtonItem, animated: false)
+        }
     }
     
     override func setupViews() {
@@ -116,6 +154,33 @@ class ItemViewController: SImagePickerViewController {
         
         headerImageView.setImage(from: item.headerImageUrl, renderingMode: .alwaysOriginal, contentMode: .scaleAspectFill, placeholderImage: nil, indicatorType: .activity)
         nameTextField.text(item.name)
+        descriptionTextView.text = item.description
+        purchaseUrlTextField.text(item.purchaseUrl)
+        isFeaturedSwitch.object.isOn = item.isFeatured
+        
+        var itemTypeRow = 0
+        for i in 0..<itemTypes.count {
+            let itemType = itemTypes[i]
+            if itemType == item.itemType {
+                itemTypeRow = i
+            }
+        }
+        itemTypePicker.select(itemTypeRow)
+        selectedItemType = itemTypes[itemTypeRow]
+        
+        var itemSpaceRow = 0
+        for i in 0..<itemSpaces.count {
+            let itemSpace = itemSpaces[i]
+            if itemSpace == item.itemSpace {
+                itemSpaceRow = i
+            }
+        }
+        itemSpacePicker.select(itemSpaceRow)
+        selectedItemSpace = itemSpaces[itemSpaceRow]
+        
+        if SparkBuckets.isAdmin.value {
+            // TODO:
+        }
     }
     
     override func layoutViews() {
@@ -124,6 +189,15 @@ class ItemViewController: SImagePickerViewController {
         stack(.vertical, spacing: 15)(
             headerImageView,
             nameTextField,
+            descriptionTextView.height(160).background(color: .systemGray5),
+            purchaseUrlTextField,
+            stack(.horizontal)(
+                isFeaturedLabel,
+                Spacer(),
+                isFeaturedSwitch
+            ),
+            itemTypePicker.height(120),
+            itemSpacePicker.height(120),
             deleteLabel,
             Spacer()
         ).insetting(by: 12).scrolling(.vertical).fillingParent().layout(in: container)
@@ -199,4 +273,41 @@ class ItemViewController: SImagePickerViewController {
 // MARK: - Datasources
 
 // MARK: - Extensions
+
+extension ItemViewController: UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        1
+    }
+}
+
+extension ItemViewController: UIPickerViewDelegate {
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        let tag = pickerView.tag
+        if tag == 0 {
+            return itemTypes.count
+        } else {
+            return itemSpaces.count
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let tag = pickerView.tag
+        if tag == 0 {
+            return itemTypes[row].capitalized
+        } else {
+            return itemSpaces[row].capitalized
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        print("Selected: \(row) for picker tag: \(pickerView.tag)")
+        let tag = pickerView.tag
+        if tag == 0 {
+            self.selectedItemType = itemTypes[row]
+        } else {
+            self.selectedItemSpace = itemSpaces[row]
+        }
+    }
+}
 

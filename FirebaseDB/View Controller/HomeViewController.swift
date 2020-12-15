@@ -236,7 +236,7 @@ class HomeViewController: SViewController {
             switch result {
             case .success(let items):
                 print("Fetched items of space type \(ItemSpace.outdoor.rawValue): \(items.count)")
-                SparkBuckets.indoorItems.value = items
+                SparkBuckets.outdoorItems.value = items
             case .failure(let err):
                 Alert.showError(message: err.localizedDescription)
             }
