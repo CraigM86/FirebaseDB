@@ -14,6 +14,7 @@ struct SparkKey {
         static let admins = "admins"
         static let categories = "categories"
         static let items = "items"
+        static let likes = "likes"
     }
     
     struct StoragePath {

@@ -184,6 +184,41 @@ struct SparkFirestore {
         }
     }
     
+    // MARK: - Like
+    
+    static func createLike(_ like: Like, completion: @escaping (Result<Bool, Error>) -> ()) {
+        let base = SparkFirestoreReferenceManager.likeBase()
+        let reference = base.reference
+        let uid = base.uid
+        
+        var updatedLike = like
+        updatedLike.uid = uid
+        
+        reference.setData(updatedLike.dictionary(mapped: true)) { (err) in
+            if let err = err {
+                completion(.failure(err))
+                return
+            }
+            completion(.success(true))
+        }
+    }
+    
+    static func deleteLike(uid: String, completion: @escaping (Result<Bool, Error>) -> ()) {
+        let reference = SparkFirestoreReferenceManager.referenceForLike(with: uid)
+        reference.delete { (err) in
+            if let err = err {
+                completion(.failure(err))
+                return
+            }
+            completion(.success(true))
+        }
+    }
+    
+    static func retreiveLike(_ like: Like, completion: @escaping (Result<[Like], Error>) -> ()) {
+        let query = SparkFirestoreQueryManager.queryForLike(like)
+        SparkFirestoreHelper<Like>.getCodables(for: query, completion: completion)
+    }
+    
 }
 
 struct SparkFirestoreHelper<T: Codable> {

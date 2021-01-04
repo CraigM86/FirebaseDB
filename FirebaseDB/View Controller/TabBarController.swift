@@ -14,7 +14,8 @@ class TabBarController: UITabBarController {
     let authViewController = AuthViewController()
     
     let controller0 = HomeViewController()
-    let controller1 = ProfileViewController()
+    let controller1 = CategoriesViewController()
+    let controller2 = ProfileViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,12 +54,17 @@ class TabBarController: UITabBarController {
         controller0.tabBarItem = item0
         
         let item1 = UITabBarItem()
-        item1.image = UIImage(systemName: "person.fill")
+        item1.image = UIImage(systemName: "square.grid.2x2.fill")
         controller1.tabBarItem = item1
+        
+        let item2 = UITabBarItem()
+        item2.image = UIImage(systemName: "person.fill")
+        controller2.tabBarItem = item2
         
         viewControllers = [
             UINavigationController(rootViewController: controller0),
-            UINavigationController(rootViewController: controller1)
+            UINavigationController(rootViewController: controller1),
+            UINavigationController(rootViewController: controller2)
         ]
         
         selectedIndex = 1

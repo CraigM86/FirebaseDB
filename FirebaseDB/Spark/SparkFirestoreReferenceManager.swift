@@ -47,4 +47,19 @@ struct SparkFirestoreReferenceManager {
         let uid = reference.documentID
         return (reference, uid)
     }
+    
+    // MARK: - Likes
+    
+    static func referenceForLike(with uid: String) -> DocumentReference {
+        return SparkFirebaseRootReference.firestore
+            .collection(SparkKey.CollectionPath.likes)
+            .document(uid)
+    }
+    
+    static func likeBase() -> (reference: DocumentReference, uid: String) {
+        let reference = SparkFirebaseRootReference.firestore
+            .collection(SparkKey.CollectionPath.likes).document()
+        let uid = reference.documentID
+        return (reference, uid)
+    }
 }
