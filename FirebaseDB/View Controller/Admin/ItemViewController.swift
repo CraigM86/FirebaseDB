@@ -23,18 +23,20 @@ class ItemViewController: SImagePickerViewController {
     // MARK: - Properties
     
     var itemTypes = [
+        ItemType.undefined.rawValue,
         ItemType.accessory.rawValue,
         ItemType.onSale.rawValue
     ]
     
-    var selectedItemType = ""
+    lazy var selectedItemType = itemTypes[0]
     
     var itemSpaces = [
+        ItemSpace.undefined.rawValue,
         ItemSpace.indoor.rawValue,
         ItemSpace.outdoor.rawValue
     ]
     
-    var selectedItemSpace = ""
+    lazy var selectedItemSpace = itemSpaces[0]
     
     // MARK: - Buckets
     
@@ -46,8 +48,8 @@ class ItemViewController: SImagePickerViewController {
               let description = self.descriptionTextView.text,
               let purchaseUrl = self.purchaseUrlTextField.object.text,
               let isFeatured = self.isFeaturedSwitch.isOn(),
-              self.selectedItemType != "",
-              self.selectedItemSpace != "",
+              self.selectedItemType != ItemType.undefined.rawValue,
+              self.selectedItemSpace != ItemSpace.undefined.rawValue,
               let category = self.category else {
             return
         }

@@ -10,13 +10,13 @@ import SparkUI
 import BetterCodable
 
 enum ItemType: String {
-    case undefined = ""
+    case undefined = "undefined"
     case accessory = "accessory"
     case onSale = "onSale"
 }
 
 enum ItemSpace: String {
-    case undefined = ""
+    case undefined = "undefined"
     case outdoor = "outdoor"
     case indoor = "indoor"
 }
