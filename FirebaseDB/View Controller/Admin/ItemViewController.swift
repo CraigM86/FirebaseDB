@@ -54,6 +54,11 @@ class ItemViewController: SImagePickerViewController {
             return
         }
         
+        guard purchaseUrl.contains("https://") else {
+            Alert.showInfo(message: "Please provide a valid purchase url")
+            return
+        }
+        
         Hud.large.showWorking(message: self.item == nil ? "Adding new item..." : "Updating item...")
         SparkStorage.handleImageChange(newImage: image, folderPath: SparkKey.StoragePath.itemHeaderImages, compressionQuality: Setup.itemHeaderImageCompressionQuality, oldImageUrl: self.item == nil ? "" : self.item!.headerImageUrl) { (result) in
             switch result {
@@ -105,8 +110,8 @@ class ItemViewController: SImagePickerViewController {
         .square(self.view.frame.size.width)
     lazy var nameTextField = STextField().placeholder("Name").delegate(self)
     let descriptionTextView = UITextView()
-    let purchaseUrlButton = UILabel().text("Buy now").text(color: .systemBlue).textAlignment(.center).bold()
-    let purchaseUrlTextField = STextField().placeholder("Purchase url")
+    let purchaseUrlButton = UILabel().text("Buy now").text(color: .systemBlue).textAlignment(.center).bold().isHidden(SparkBuckets.isAdmin.value)
+    let purchaseUrlTextField = STextField().placeholder("Purchase url").isHidden(!SparkBuckets.isAdmin.value)
     let isFeaturedContainerView = UIView()
     let isFeaturedLabel = UILabel().text("Featured").bold()
     let isFeaturedSwitch = SSwitch(uiSwitch: UISwitch())
@@ -154,6 +159,16 @@ class ItemViewController: SImagePickerViewController {
         
         deleteLabel.isHidden(item == nil)
         
+        if !SparkBuckets.isAdmin.value {
+            
+            descriptionTextView.isEditable = false
+            
+            isFeaturedContainerView.isHidden = true
+            itemTypePicker.isHidden = true
+            itemSpacePicker.isHidden = true
+            deleteLabel.isHidden = true
+        }
+        
         guard let item = item else { return }
         
         headerImageView.setImage(from: item.headerImageUrl, renderingMode: .alwaysOriginal, contentMode: .scaleAspectFill, placeholderImage: nil, indicatorType: .activity)
@@ -182,21 +197,6 @@ class ItemViewController: SImagePickerViewController {
         itemSpacePicker.select(itemSpaceRow)
         selectedItemSpace = itemSpaces[itemSpaceRow]
         
-        if !SparkBuckets.isAdmin.value {
-            
-            descriptionTextView.isEditable = false
-            
-            purchaseUrlButton.isHidden = false
-            purchaseUrlTextField.isHidden = true
-            
-            isFeaturedContainerView.isHidden = true
-            itemTypePicker.isHidden = true
-            itemSpacePicker.isHidden = true
-            deleteLabel.isHidden = true
-        } else {
-            purchaseUrlButton.isHidden = true
-            purchaseUrlTextField.isHidden = false
-        }
     }
     
     override func layoutViews() {
