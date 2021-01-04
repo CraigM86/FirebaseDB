@@ -52,4 +52,10 @@ struct SparkFirestoreQueryManager {
             .whereField(Key.Like.ownerUid, isEqualTo: like.ownerUid)
             .whereField(Key.Like.itemUid, isEqualTo: like.itemUid)
     }
+    
+    static func queryForLikes(ownerUid: String) -> Query {
+        return SparkFirebaseRootReference.firestore
+            .collection(SparkKey.CollectionPath.likes)
+            .whereField(Key.Like.ownerUid, isEqualTo: ownerUid)
+    }
 }

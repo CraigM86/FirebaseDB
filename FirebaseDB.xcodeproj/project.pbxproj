@@ -32,6 +32,7 @@
 		C9562CA325A31495007DA3E9 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9562CA225A31495007DA3E9 /* CategoriesViewController.swift */; };
 		C9562CA625A31603007DA3E9 /* CategoriesCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9562CA525A31603007DA3E9 /* CategoriesCategoryCell.swift */; };
 		C9562CA925A32528007DA3E9 /* Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9562CA825A32528007DA3E9 /* Like.swift */; };
+		C9562CAC25A3384C007DA3E9 /* LikesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9562CAB25A3384C007DA3E9 /* LikesViewController.swift */; };
 		C95FCBB0257793E000348D90 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C95FCBAF257793E000348D90 /* IQKeyboardManagerSwift */; };
 		C95FCBB52577994700348D90 /* AdminCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95FCBB42577994700348D90 /* AdminCell.swift */; };
 		C96122642577AD8800F39EAC /* ItemListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96122632577AD8800F39EAC /* ItemListViewController.swift */; };
@@ -80,6 +81,7 @@
 		C9562CA225A31495007DA3E9 /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		C9562CA525A31603007DA3E9 /* CategoriesCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCategoryCell.swift; sourceTree = "<group>"; };
 		C9562CA825A32528007DA3E9 /* Like.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Like.swift; sourceTree = "<group>"; };
+		C9562CAB25A3384C007DA3E9 /* LikesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesViewController.swift; sourceTree = "<group>"; };
 		C95FCBB42577994700348D90 /* AdminCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminCell.swift; sourceTree = "<group>"; };
 		C96122632577AD8800F39EAC /* ItemListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListViewController.swift; sourceTree = "<group>"; };
 		C96122662577AEE300F39EAC /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				C9265080256D234F002D4CB0 /* ProfileViewController.swift */,
 				C90720422571006300F1C23A /* SettingsViewController.swift */,
 				C9562CA225A31495007DA3E9 /* CategoriesViewController.swift */,
+				C9562CAB25A3384C007DA3E9 /* LikesViewController.swift */,
 			);
 			path = "View Controller";
 			sourceTree = "<group>";
@@ -393,6 +396,7 @@
 				C926506F256D1949002D4CB0 /* Profile.swift in Sources */,
 				C926506C256D18E1002D4CB0 /* SparkFirestore.swift in Sources */,
 				C926504D256D1530002D4CB0 /* SparkAuth.swift in Sources */,
+				C9562CAC25A3384C007DA3E9 /* LikesViewController.swift in Sources */,
 				C907207D25710D5600F1C23A /* Setup.swift in Sources */,
 				C9265081256D234F002D4CB0 /* ProfileViewController.swift in Sources */,
 				C9562CA625A31603007DA3E9 /* CategoriesCategoryCell.swift in Sources */,

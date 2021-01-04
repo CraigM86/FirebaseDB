@@ -1,8 +1,8 @@
 //
-//  ItemListViewController.swift
+//  LikesViewController.swift
 //  FirebaseDB
 //
-//  Created by Alex Nagy on 02.12.2020.
+//  Created by Alex Nagy on 04.01.2021.
 //
 
 import UIKit
@@ -12,11 +12,9 @@ import FirebaseAuth
 
 // MARK: - Protocols
 
-class ItemListViewController: SViewController {
+class LikesViewController: SViewController {
     
     // MARK: - Dependencies
-    
-    var category: Category?
     
     // MARK: - Delegates
     
@@ -27,16 +25,6 @@ class ItemListViewController: SViewController {
     // MARK: - Navigation items
     
     // MARK: - Views
-    
-    lazy var imageView = UIImageView()
-        .masksToBounds()
-        .contentMode(.scaleAspectFill)
-        .height(200)
-    
-    let itemsCountLabel = UILabel()
-        .text(color: .systemGray3)
-        .textAlignment(.left)
-        .font(.boldSystemFont(ofSize: 12))
     
     lazy var flowLayout = FlowLayout().item(width: self.view.frame.width * 0.5, height: self.view.frame.width * 0.7).scrollDirection(.vertical)
     lazy var collectionView = CollectionView(with: flowLayout, delegateAndDataSource: self)
@@ -63,9 +51,6 @@ class ItemListViewController: SViewController {
     
     override func configureNavigationBar() {
         super.configureNavigationBar()
-        
-        guard let category = category else { return }
-        title = category.name
     }
     
     override func setupViews() {
@@ -76,19 +61,12 @@ class ItemListViewController: SViewController {
         super.layoutViews()
         
         stack(.vertical)(
-            imageView,
-            itemsCountLabel.insetting(by: 8),
-            SDivider(),
             collectionView
         ).fillingParent().layout(in: container)
-        
     }
     
     override func configureViews() {
         super.configureViews()
-        
-        guard let category = category else { return }
-        imageView.setImage(from: category.headerImageUrl, renderingMode: .alwaysOriginal, contentMode: .scaleAspectFill, placeholderImage: nil, indicatorType: .activity)
     }
     
     override func addActions() {
@@ -99,15 +77,7 @@ class ItemListViewController: SViewController {
         super.subscribe()
         
         SparkBuckets.items.subscribe(with: self) { (items) in
-            self.itemsCountLabel.text = "\(items.count) ITEM\(items.count == 0 ? "" : "S")"
             self.collectionView.reloadData()
-            
-            var dummyLikes = [Like?]()
-            items.forEach { (item) in
-                dummyLikes.append(nil)
-            }
-            SparkBuckets.likes.value = dummyLikes
-            self.fetchLikes(items)
         }
         
         SparkBuckets.likes.subscribe(with: self) { (likes) in
@@ -129,70 +99,27 @@ class ItemListViewController: SViewController {
     
     // MARK: - fileprivate
     
-    fileprivate func fetchLikes(_ items: [Item]) {
-        
-        items.forEach { (item) in
-            guard let ownerUid = Auth.auth().currentUser?.uid else { return }
-            let itemUid = item.uid
-            let like = Like(uid: "", ownerUid: ownerUid, itemUid: itemUid)
-            SparkFirestore.retreiveLike(like) { (result) in
-                switch result {
-                case .success(let fetchedLikes):
-                    if fetchedLikes.count >= 1 {
-                        for i in 0..<SparkBuckets.items.value.count {
-                            let currentItem = SparkBuckets.items.value[i]
-                            if currentItem.uid == item.uid {
-                                SparkBuckets.likes.value[i] = fetchedLikes.first!
-                            }
-                        }
-                        
-                    }
-                case .failure(let err):
-                    print(err.localizedDescription)
-                }
-            }
-        }
-        
-        
-    }
-    
     fileprivate func fetch() {
-        guard let category = category else { return }
-        Hud.large.showWorking(message: "Fetching items...")
-        SparkFirestore.retreiveItems(categoryUid: category.uid) { (result) in
+        guard let ownerUid = Auth.auth().currentUser?.uid else { return }
+        Hud.large.showWorking(message: "Fetching likes...")
+        SparkFirestore.retreiveLikes(ownerUid: ownerUid) { (result) in
             Hud.large.hide()
             switch result {
-            case .success(let items):
-                SparkBuckets.items.value = items
-                if items.count == 0 {
-                    let goBackAction = UIAlertAction(title: "Go back", style: .default) { (action) in
-                        self.navigationController?.popViewController(animated: true)
-                    }
-                    
-                    let deleteAction = UIAlertAction(title: "Delete '\(category.name)'", style: .destructive) { (action) in
-                        
-                        let confirmAction = UIAlertAction(title: "Confirm", style: .destructive) { (action) in
-                            Hud.large.showWorking(message: "Deleting category...")
-                            SparkFirestore.deleteCategory(uid: category.uid) { (result) in
-                                Hud.large.hide()
-                                switch result {
-                                case .success(let finished):
-                                    if finished {
-                                        self.navigationController?.popToViewController(adminController, animated: true)
-                                    } else {
-                                        Alert.showErrorSomethingWentWrong()
-                                    }
-                                case .failure(let err):
-                                    Alert.showError(message: err.localizedDescription)
-                                }
-                            }
+            case .success(let likes):
+                SparkBuckets.likes.value = likes
+                
+                likes.forEach { (like) in
+                    let itemUid = like.itemUid
+                    SparkFirestore.retreiveItem(uid: itemUid) { (result) in
+                        switch result {
+                        case .success(let item):
+                            SparkBuckets.items.value.append(item)
+                        case .failure(let err):
+                            print(err.localizedDescription)
                         }
-                        Alert.show(.alert, title: "Delete", message: "Do you really want to delete this category?", actions: [confirmAction, goBackAction], completion: nil)
                     }
-                    
-                    Alert.show(.alert, title: "No items found", message: nil, actions: [deleteAction, goBackAction], completion: nil)
-                    return
                 }
+                
             case .failure(let err):
                 Alert.showError(message: err.localizedDescription)
             }
@@ -209,13 +136,13 @@ class ItemListViewController: SViewController {
 
 // MARK: - Delegates
 
-extension ItemListViewController: UICollectionViewDelegateFlowLayout {
+extension LikesViewController: UICollectionViewDelegateFlowLayout {
     
 }
 
 // MARK: - Datasources
 
-extension ItemListViewController: UICollectionViewDataSource {
+extension LikesViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         1
@@ -236,7 +163,7 @@ extension ItemListViewController: UICollectionViewDataSource {
     
 //    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        let item = SparkBuckets.items.value[indexPath.row]
-//        
+//
 //        if SparkBuckets.isAdmin.value {
 //            let controller = ItemViewController()
 //            controller.item = item
@@ -254,7 +181,7 @@ extension ItemListViewController: UICollectionViewDataSource {
 
 // MARK: - Extensions
 
-extension ItemListViewController: ItemCellDelegate {
+extension LikesViewController: ItemCellDelegate {
     
     func didLikeItem(_ item: Item) {
         guard let ownerUid = Auth.auth().currentUser?.uid else { return }
@@ -295,3 +222,5 @@ extension ItemListViewController: ItemCellDelegate {
         }
     }
 }
+
+

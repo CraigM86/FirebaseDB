@@ -50,8 +50,6 @@ class CategoriesViewController: SViewController {
     
     override func configureNavigationBar() {
         super.configureNavigationBar()
-        
-        title = "Category"
     }
     
     override func setupViews() {

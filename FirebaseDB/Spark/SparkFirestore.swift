@@ -160,6 +160,11 @@ struct SparkFirestore {
         SparkFirestoreHelper<Item>.getCodables(for: query, completion: completion)
     }
     
+    static func retreiveItem(uid: String, completion: @escaping (Result<Item, Error>) -> ()) {
+        let reference = SparkFirestoreReferenceManager.referenceForItem(with: uid)
+        SparkFirestoreHelper<Item>.getCodable(for: reference, completion: completion)
+    }
+    
     static func updateItem(_ item: Item, completion: @escaping (Result<Bool, Error>) -> ()) {
         
         let reference = SparkFirestoreReferenceManager.referenceForItem(with: item.uid)
@@ -216,6 +221,11 @@ struct SparkFirestore {
     
     static func retreiveLike(_ like: Like, completion: @escaping (Result<[Like], Error>) -> ()) {
         let query = SparkFirestoreQueryManager.queryForLike(like)
+        SparkFirestoreHelper<Like>.getCodables(for: query, completion: completion)
+    }
+    
+    static func retreiveLikes(ownerUid: String, completion: @escaping (Result<[Like], Error>) -> ()) {
+        let query = SparkFirestoreQueryManager.queryForLikes(ownerUid: ownerUid)
         SparkFirestoreHelper<Like>.getCodables(for: query, completion: completion)
     }
     
