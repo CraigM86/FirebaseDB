@@ -10,14 +10,15 @@ import SparkUI
 import Layoutless
 
 protocol ItemCellDelegate {
-    func didTap(_ item: Item)
+    func didLikeItem(_ item: Item)
+    func didUnlike(_ like: Like, item: Item)
 }
 
 class ItemCell: CollectionCell<Item>, SelfConfiguringCell {
     
     static var reuseIdentifier: String = "cell"
     
-    var isLiked = false
+    var like: Like?
     
     var delegate: ItemCellDelegate?
     
@@ -46,12 +47,6 @@ class ItemCell: CollectionCell<Item>, SelfConfiguringCell {
                 heartImageView
             ),
             Spacer()
-//            stack(.vertical)(
-//                Spacer().setHeight(5),
-//                messageLabel,
-//                Spacer(),
-//                SDivider()
-//            )
         ).insetting(leftBy: 12, rightBy: 12, topBy: 12, bottomBy: 0).fillingParent().layout(in: container)
         
     }
@@ -61,7 +56,7 @@ class ItemCell: CollectionCell<Item>, SelfConfiguringCell {
         guard let item = item else { return }
         imageView.setImage(from: item.headerImageUrl, renderingMode: .alwaysOriginal, contentMode: .scaleAspectFill, placeholderImage: nil, indicatorType: .activity)
         messageLabel.text = item.name
-        heartImageView.setSystemImage(isLiked ? "heart.fill" : "heart")
+        heartImageView.setSystemImage(like != nil ? "heart.fill" : "heart")
     }
     
     override func addActions() {
@@ -69,7 +64,14 @@ class ItemCell: CollectionCell<Item>, SelfConfiguringCell {
         
         heartImageView.addAction {
             guard let item = self.item else { return }
-            self.delegate?.didTap(item)
+            if self.like != nil {
+                self.delegate?.didUnlike(self.like!, item: item)
+                self.heartImageView.setSystemImage("heart")
+            } else {
+                self.delegate?.didLikeItem(item)
+                self.heartImageView.setSystemImage("heart.fill")
+            }
+            
         }
     }
 }

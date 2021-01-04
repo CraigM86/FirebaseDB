@@ -100,9 +100,9 @@ class ItemListViewController: SViewController {
             self.itemsCountLabel.text = "\(items.count) ITEM\(items.count == 0 ? "" : "S")"
             self.collectionView.reloadData()
             
-            var dummyLikes = [Bool]()
+            var dummyLikes = [Like?]()
             items.forEach { (item) in
-                dummyLikes.append(false)
+                dummyLikes.append(nil)
             }
             SparkBuckets.likes.value = dummyLikes
             self.fetchLikes(items)
@@ -135,18 +135,15 @@ class ItemListViewController: SViewController {
             let like = Like(uid: "", ownerUid: ownerUid, itemUid: itemUid)
             SparkFirestore.retreiveLike(like) { (result) in
                 switch result {
-                case .success(let likes):
-                    if likes.count >= 1 {
-                        var likes = [Bool]()
+                case .success(let fetchedLikes):
+                    if fetchedLikes.count >= 1 {
                         for i in 0..<SparkBuckets.items.value.count {
                             let currentItem = SparkBuckets.items.value[i]
                             if currentItem.uid == item.uid {
-                                likes.append(true)
-                            } else {
-                                likes.append(false)
+                                SparkBuckets.likes.value[i] = fetchedLikes.first!
                             }
                         }
-                        SparkBuckets.likes.value = likes
+                        
                     }
                 case .failure(let err):
                     print(err.localizedDescription)
@@ -229,7 +226,7 @@ extension ItemListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemCell.reuseIdentifier, for: indexPath) as! ItemCell
         cell.delegate = self
-        cell.isLiked = SparkBuckets.likes.value[indexPath.row]
+        cell.like = SparkBuckets.likes.value[indexPath.row]
         let item = SparkBuckets.items.value[indexPath.row]
         cell.setup(with: item, at: indexPath)
         return cell
@@ -256,13 +253,40 @@ extension ItemListViewController: UICollectionViewDataSource {
 // MARK: - Extensions
 
 extension ItemListViewController: ItemCellDelegate {
-    func didTap(_ item: Item) {
+    
+    func didLikeItem(_ item: Item) {
         guard let ownerUid = Auth.auth().currentUser?.uid else { return }
         let like = Like(uid: "", ownerUid: ownerUid, itemUid: item.uid)
         SparkFirestore.createLike(like) { (result) in
             switch result {
-            case .success(let finished):
-                print("Finished liking: \(finished)")
+            case .success(let like):
+                print("Finished liking: \(like)")
+                for i in 0..<SparkBuckets.items.value.count {
+                    let currentItem = SparkBuckets.items.value[i]
+                    if currentItem.uid == item.uid {
+                        SparkBuckets.likes.value[i] = like
+                    }
+                }
+            case .failure(let err):
+                print(err.localizedDescription)
+            }
+        }
+    }
+    
+    func didUnlike(_ like: Like, item: Item) {
+        guard let ownerUid = Auth.auth().currentUser?.uid else { return }
+        guard ownerUid == like.ownerUid else { return }
+        print("Going to delete like: \(like)")
+        SparkFirestore.deleteLike(like) { (result) in
+            switch result {
+            case .success(let like):
+                print("Finished unliking: \(like)")
+                for i in 0..<SparkBuckets.items.value.count {
+                    let currentItem = SparkBuckets.items.value[i]
+                    if currentItem.uid == item.uid {
+                        SparkBuckets.likes.value[i] = nil
+                    }
+                }
             case .failure(let err):
                 print(err.localizedDescription)
             }

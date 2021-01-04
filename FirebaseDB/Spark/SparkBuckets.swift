@@ -22,5 +22,5 @@ struct SparkBuckets {
     static let outdoorItems = Bucket([Item]())
     static let accessoryItems = Bucket([Item]())
     
-    static let likes = Bucket([Bool]())
+    static let likes = Bucket([Like?]())
 }

@@ -186,7 +186,7 @@ struct SparkFirestore {
     
     // MARK: - Like
     
-    static func createLike(_ like: Like, completion: @escaping (Result<Bool, Error>) -> ()) {
+    static func createLike(_ like: Like, completion: @escaping (Result<Like, Error>) -> ()) {
         let base = SparkFirestoreReferenceManager.likeBase()
         let reference = base.reference
         let uid = base.uid
@@ -199,18 +199,18 @@ struct SparkFirestore {
                 completion(.failure(err))
                 return
             }
-            completion(.success(true))
+            completion(.success(updatedLike))
         }
     }
     
-    static func deleteLike(uid: String, completion: @escaping (Result<Bool, Error>) -> ()) {
-        let reference = SparkFirestoreReferenceManager.referenceForLike(with: uid)
+    static func deleteLike(_ like: Like, completion: @escaping (Result<Like, Error>) -> ()) {
+        let reference = SparkFirestoreReferenceManager.referenceForLike(with: like.uid)
         reference.delete { (err) in
             if let err = err {
                 completion(.failure(err))
                 return
             }
-            completion(.success(true))
+            completion(.success(like))
         }
     }
     
