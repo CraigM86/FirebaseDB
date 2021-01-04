@@ -103,9 +103,11 @@ class ItemViewController: SImagePickerViewController {
     lazy var headerImageView = UIImageView()
         .background(color: .systemGray5)
         .square(self.view.frame.size.width)
-    let nameTextField = STextField().placeholder("Name")
+    lazy var nameTextField = STextField().placeholder("Name").delegate(self)
     let descriptionTextView = UITextView()
+    let purchaseUrlButton = UILabel().text("Buy now").text(color: .systemBlue).textAlignment(.center).bold()
     let purchaseUrlTextField = STextField().placeholder("Purchase url")
+    let isFeaturedContainerView = UIView()
     let isFeaturedLabel = UILabel().text("Featured").bold()
     let isFeaturedSwitch = SSwitch(uiSwitch: UISwitch())
     let itemTypePicker = UIPickerView()
@@ -180,24 +182,39 @@ class ItemViewController: SImagePickerViewController {
         itemSpacePicker.select(itemSpaceRow)
         selectedItemSpace = itemSpaces[itemSpaceRow]
         
-        if SparkBuckets.isAdmin.value {
-            // TODO:
+        if !SparkBuckets.isAdmin.value {
+            
+            descriptionTextView.isEditable = false
+            
+            purchaseUrlButton.isHidden = false
+            purchaseUrlTextField.isHidden = true
+            
+            isFeaturedContainerView.isHidden = true
+            itemTypePicker.isHidden = true
+            itemSpacePicker.isHidden = true
+            deleteLabel.isHidden = true
+        } else {
+            purchaseUrlButton.isHidden = true
+            purchaseUrlTextField.isHidden = false
         }
     }
     
     override func layoutViews() {
         super.layoutViews()
         
+        stack(.horizontal)(
+            isFeaturedLabel,
+            Spacer(),
+            isFeaturedSwitch
+        ).fillingParent().layout(in: isFeaturedContainerView)
+        
         stack(.vertical, spacing: 15)(
             headerImageView,
             nameTextField,
             descriptionTextView.height(160).background(color: .systemGray5),
+            purchaseUrlButton,
             purchaseUrlTextField,
-            stack(.horizontal)(
-                isFeaturedLabel,
-                Spacer(),
-                isFeaturedSwitch
-            ),
+            isFeaturedContainerView,
             itemTypePicker.height(120),
             itemSpacePicker.height(120),
             deleteLabel,
@@ -214,7 +231,21 @@ class ItemViewController: SImagePickerViewController {
         super.addActions()
         
         headerImageView.addAction {
+            if !SparkBuckets.isAdmin.value { return }
             self.showChooseImageSourceTypeAlertController()
+        }
+        
+        purchaseUrlButton.addAction {
+            guard let url = self.item?.purchaseUrl else {
+                Alert.showInfo(message: "It looks like the purchase url is missing")
+                return
+            }
+            guard url.contains("https://") else {
+                Alert.showWarning(message: "It looks like the purchase url is not a valid one")
+                return
+            }
+            let controller = SWebViewController(url: url)
+            self.navigationController?.pushViewController(controller, animated: true)
         }
         
         deleteLabel.addAction {
@@ -313,3 +344,8 @@ extension ItemViewController: UIPickerViewDelegate {
     }
 }
 
+extension ItemViewController: UITextFieldDelegate {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        SparkBuckets.isAdmin.value
+    }
+}
