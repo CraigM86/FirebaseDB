@@ -24,6 +24,11 @@ class LikesViewController: SViewController {
     
     // MARK: - Navigation items
     
+    lazy var profileBarButtonItem = UIBarButtonItem(systemImageNamed: "person.fill") {
+        let controller = ProfileViewController()
+        self.navigationController?.pushViewController(controller, animated: true)
+    }
+    
     // MARK: - Views
     
     lazy var flowLayout = FlowLayout().item(width: self.view.frame.width * 0.5, height: self.view.frame.width * 0.7).scrollDirection(.vertical)
@@ -47,6 +52,7 @@ class LikesViewController: SViewController {
     
     override func setupNavigationBar() {
         super.setupNavigationBar()
+        self.navigationItem.setRightBarButton(profileBarButtonItem, animated: false)
     }
     
     override func configureNavigationBar() {

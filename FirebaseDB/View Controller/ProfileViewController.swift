@@ -2,16 +2,18 @@
 //  ProfileViewController.swift
 //  FirebaseDB
 //
-//  Created by Alex Nagy on 24.11.2020.
+//  Created by Alex Nagy on 27.11.2020.
 //
 
 import UIKit
 import SparkUI
 import Layoutless
 
+let adminController = AdminViewController()
+
 // MARK: - Protocols
 
-class ProfileViewController: SViewController {
+class ProfileViewController: SImagePickerViewController {
     
     // MARK: - Dependencies
     
@@ -23,12 +25,52 @@ class ProfileViewController: SViewController {
     
     // MARK: - Navigation items
     
-    lazy var settingsBarButtonItem = UIBarButtonItem(systemImageNamed: "slider.horizontal.3") {
-        let controller = SettingsViewController()
-        self.navigationController?.pushViewController(controller, animated: true)
+    lazy var saveBarButtonItem = UIBarButtonItem(title: "Save", style: .done) {
+        guard let image = self.profileImageView.image, let name = self.nameTextField.object.text, name != "" else {
+            return
+        }
+        
+        Hud.large.showWorking(message: "Saving profile changes...")
+        SparkStorage.handleImageChange(newImage: image, folderPath: SparkKey.StoragePath.profileImages, compressionQuality: Setup.profileImageCompressionQuality, oldImageUrl: SparkBuckets.currentUserProfile.value.profileImageUrl) { (result) in
+            switch result {
+            case .success(let url):
+                Hud.large.update(message: "Updating database...")
+                let profile = Profile(uid: "", name: name, profileImageUrl: url.absoluteString)
+                SparkFirestore.updateCurrentUserProfile(data: profile.dictionary(mapped: true)) { (result) in
+                    Hud.large.hide()
+                    switch result {
+                    case .success(let finished):
+                        if finished {
+                            self.navigationController?.popViewController(animated: true)
+                        } else {
+                            Alert.showErrorSomethingWentWrong()
+                        }
+                    case .failure(let err):
+                        Alert.showError(message: err.localizedDescription)
+                    }
+                }
+            case .failure(let err):
+                Hud.large.hideWithErrorAlert(message: err.localizedDescription)
+            }
+        }
     }
     
     // MARK: - Views
+    
+    let profileImageView = UIImageView().background(color: .systemGray5)
+    let nameTextField = STextField().placeholder("Full Name")
+    let logoutLabel = UILabel()
+        .text("Logout")
+        .text(color: .systemBlue)
+        .textAlignment(.center)
+        .bold()
+    
+    let adminLabel = UILabel()
+        .text("Admin Access")
+        .text(color: .systemRed)
+        .textAlignment(.center)
+        .bold()
+        .isHidden()
     
     // MARK: - init - deinit
     
@@ -44,11 +86,11 @@ class ProfileViewController: SViewController {
     
     override func setupNavigationBar() {
         super.setupNavigationBar()
-        self.navigationItem.setRightBarButton(settingsBarButtonItem, animated: false)
     }
     
     override func configureNavigationBar() {
         super.configureNavigationBar()
+        self.navigationItem.setRightBarButton(saveBarButtonItem, animated: false)
     }
     
     override func setupViews() {
@@ -58,7 +100,16 @@ class ProfileViewController: SViewController {
     override func layoutViews() {
         super.layoutViews()
         
-        stack(.vertical)(
+        stack(.vertical, spacing: 15)(
+            stack(.horizontal, distribution: .equalCentering)(
+                Spacer(),
+                profileImageView.circular(44),
+                Spacer()
+            ),
+            nameTextField,
+            SDivider(),
+            logoutLabel,
+            adminLabel,
             Spacer()
         ).insetting(by: 12).fillingParent().layout(in: container)
         
@@ -66,17 +117,53 @@ class ProfileViewController: SViewController {
     
     override func configureViews() {
         super.configureViews()
+        profileImageView.setImage(from: SparkBuckets.currentUserProfile.value.profileImageUrl, renderingMode: .alwaysOriginal, contentMode: .scaleAspectFill, placeholderImage: nil, indicatorType: .activity)
+        nameTextField.text(SparkBuckets.currentUserProfile.value.name)
+        
+        adminLabel.isHidden(!SparkBuckets.isAdmin.value)
     }
     
     override func addActions() {
         super.addActions()
+        
+        profileImageView.addAction {
+            self.showChooseImageSourceTypeAlertController()
+        }
+        
+        logoutLabel.addAction {
+            let confirmAction = UIAlertAction(title: "Confirm", style: .destructive) { (action) in
+                SparkAuth.signOut { (result) in
+                    switch result {
+                    case .success(let finished):
+                        print("Logged out with success: \(finished)")
+                        self.navigationController?.popViewController(animated: true)
+                    case .failure(let err):
+                        Alert.showError(message: err.localizedDescription)
+                    }
+                }
+            }
+            
+            Alert.show(.alert, title: "Logout", message: "Are you sure you want to log out?", actions: [confirmAction, Alert.cancelAction()], completion: nil)
+        }
+        
+        adminLabel.addAction {
+            self.navigationController?.pushViewController(adminController, animated: true)
+        }
     }
     
     override func subscribe() {
         super.subscribe()
         
         SparkBuckets.currentUserProfile.subscribe(with: self) { (profile) in
-            self.setTitleOnly(profile.name)
+            self.nameTextField.text(profile.name)
+        }
+        
+        imagePickerControllerImage.subscribe(with: self) { (image) in
+            self.profileImageView.image = image
+        }
+        
+        SparkBuckets.isAdmin.subscribe(with: self) { (isAdmin) in
+            self.adminLabel.isHidden(!isAdmin)
         }
     }
     

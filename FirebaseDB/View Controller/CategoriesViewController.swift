@@ -23,6 +23,11 @@ class CategoriesViewController: SViewController {
     
     // MARK: - Navigation items
     
+    lazy var profileBarButtonItem = UIBarButtonItem(systemImageNamed: "person.fill") {
+        let controller = ProfileViewController()
+        self.navigationController?.pushViewController(controller, animated: true)
+    }
+    
     // MARK: - Views
     
     lazy var categoriesFlowLayout = FlowLayout()
@@ -46,6 +51,7 @@ class CategoriesViewController: SViewController {
     
     override func setupNavigationBar() {
         super.setupNavigationBar()
+        self.navigationItem.setRightBarButton(profileBarButtonItem, animated: false)
     }
     
     override func configureNavigationBar() {
