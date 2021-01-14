@@ -8,6 +8,7 @@
 import UIKit
 import SparkUI
 import Layoutless
+import FirebaseAuth
 
 let adminController = AdminViewController()
 
@@ -35,7 +36,9 @@ class ProfileViewController: SImagePickerViewController {
             switch result {
             case .success(let url):
                 Hud.large.update(message: "Updating database...")
-                let profile = Profile(uid: "", name: name, profileImageUrl: url.absoluteString)
+                guard let curentUserUid = Auth.auth().currentUser?.uid else { return }
+                let profile = Profile(uid: curentUserUid, name: name, profileImageUrl: url.absoluteString)
+                print("Updating profile: \(profile)")
                 SparkFirestore.updateCurrentUserProfile(data: profile.dictionary(mapped: true)) { (result) in
                     Hud.large.hide()
                     switch result {
@@ -115,8 +118,17 @@ class ProfileViewController: SImagePickerViewController {
         
     }
     
+    /*
+     pod 'Firebase/Analytics'
+     pod 'Firebase/Auth'
+     pod 'Firebase/Firestore'
+     pod 'Firebase/Storage'
+     pod 'FirebaseFirestoreSwift'
+     */
+    
     override func configureViews() {
         super.configureViews()
+        print("url: \(SparkBuckets.currentUserProfile.value.profileImageUrl)")
         profileImageView.setImage(from: SparkBuckets.currentUserProfile.value.profileImageUrl, renderingMode: .alwaysOriginal, contentMode: .scaleAspectFill, placeholderImage: nil, indicatorType: .activity)
         nameTextField.text(SparkBuckets.currentUserProfile.value.name)
         

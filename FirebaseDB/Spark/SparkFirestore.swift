@@ -9,6 +9,7 @@ import Foundation
 import SparkUI
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import FirebaseAuth
 
 struct SparkFirestore {
     
@@ -31,8 +32,11 @@ struct SparkFirestore {
     }
     
     static func updateCurrentUserProfile(data: [String: Any], completion: @escaping (Result<Bool, Error>) -> ()) {
-        let uid = SparkBuckets.currentUserProfile.value.uid
-        let reference = SparkFirestoreReferenceManager.referenceForProfile(with: uid)
+        guard let currentUserUid = Auth.auth().currentUser?.uid else {
+            completion(.failure(SparkAuthError.noCurrentUser))
+            return
+        }
+        let reference = SparkFirestoreReferenceManager.referenceForProfile(with: currentUserUid)
         reference.updateData(data) { (err) in
             if let err = err {
                 completion(.failure(err))
@@ -46,9 +50,12 @@ struct SparkFirestore {
     
     static func refreshCurrentUserProfile(completion: @escaping (Result<Bool, Error>) -> () = {_ in}) {
         Console.info("refreshCurrentUserProfile: started...")
-        let uid = SparkBuckets.currentUserProfile.value.uid
-        Console.info("refreshCurrentUserProfile: started with uid - \(uid )")
-        retreiveProfile(uid: uid) { (result) in
+        guard let currentUserUid = Auth.auth().currentUser?.uid else {
+            completion(.failure(SparkAuthError.noCurrentUser))
+            return
+        }
+        Console.info("refreshCurrentUserProfile: started with uid - \(currentUserUid)")
+        retreiveProfile(uid: currentUserUid) { (result) in
             switch result {
             case .success(let profile):
                 Console.info("refreshCurrentUserProfile: success - \(profile.uid).")
